@@ -9,6 +9,11 @@ public class Index {
     public void index(Request request ,Response response){
 
 
-        System.out.print("finnalyy i success!");
+        System.out.print(request.params("name"));
+
+        response.render("hello");
+
+
+
     }
 }

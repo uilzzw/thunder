@@ -1,5 +1,9 @@
 package com.thunder.util;
 
+import com.thunder.core.Thunder;
+import com.thunder.render.JspRender;
+import com.thunder.render.Render;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -7,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Response {
 
+
     private  HttpServletResponse httpServletResponse;
+
+    private Render render =null;
 
     public HttpServletResponse getHttpServletResponse() {
         return httpServletResponse;
@@ -19,5 +26,13 @@ public class Response {
 
     public Response(HttpServletResponse httpServletResponse) {
         this.httpServletResponse = httpServletResponse;
+        this.render = Thunder.zeus().getRender();
     }
+
+    public  void render(String name){
+
+       render.render(name,null);
+
+    }
+
 }

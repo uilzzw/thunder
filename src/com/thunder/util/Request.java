@@ -21,5 +21,16 @@ public  class Request {
         this.servletRequest = servletRequest;
     }
 
+    public String params(String name){
+
+       return  servletRequest.getParameter(name);
+
+    }
+
+    public int paramsAsInt(String name){
+
+         return Integer.parseInt(servletRequest.getParameter(name));
+
+    }
 
 }

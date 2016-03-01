@@ -1,5 +1,7 @@
 package com.thunder.core;
 
+import com.thunder.render.JspRender;
+import com.thunder.render.Render;
 import com.thunder.route.Routes;
 import com.thunder.util.ConfigLoader;
 import com.thunder.util.Request;
@@ -19,6 +21,10 @@ public final class Thunder {
 
     private ConfigLoader configLoader;
 
+    //加载渲染器
+
+    private Render render;
+
 
     public boolean isInit = false;
 
@@ -32,6 +38,7 @@ public final class Thunder {
     private Thunder(){
         routes = new Routes();
         configLoader = new ConfigLoader();
+        render = new JspRender();
     }
 
     public void setIsInit(boolean isInit) {
@@ -90,5 +97,13 @@ public final class Thunder {
     public Thunder addRoutes(Routes routes){
         this.routes.addRoute(routes.getRoutelist());
         return this;
+    }
+
+    public Render getRender() {
+        return render;
+    }
+
+    public void setRender(Render render) {
+        this.render = render;
     }
 }

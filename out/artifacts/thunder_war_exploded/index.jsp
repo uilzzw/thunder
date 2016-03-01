@@ -9,6 +9,12 @@
 <html>
   <head>
     <title></title>
+    <form method="get" action="/index.do">
+
+      <input type="text" name="name">
+      <button type="submit">tijiao</button>
+
+    </form>
   </head>
   <body>
 

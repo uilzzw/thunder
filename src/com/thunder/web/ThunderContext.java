@@ -41,7 +41,7 @@ public final class ThunderContext {
 
     }
 
-    private ThunderContext me(){
+    public static ThunderContext me(){
 
         return CONTEXT.get();
 

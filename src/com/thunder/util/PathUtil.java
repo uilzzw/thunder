@@ -1,5 +1,8 @@
 package com.thunder.util;
 
+import com.thunder.core.Thunder;
+import com.thunder.core.Var;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -85,9 +88,37 @@ public class PathUtil {
     }
 
 
+    public  static String getViewPath(String view ){
+
+        Thunder thunder = Thunder.zeus();
+
+        String viewPrfix = thunder.getConf(Var.VIEW_PREFIX_FIELD);
+
+        String viewSuffix =thunder.getConf(Var.VIEW_SUFFIX_FIELD);
+
+
+
+        if (null == viewSuffix || viewSuffix.equals("")) {
+            viewSuffix = Var.VIEW_SUFFIX;
+        }
+        if (null == viewPrfix || viewPrfix.equals("")) {
+            viewPrfix = Var.VIEW_PREFIX;
+        }
+        String viewPath = viewPrfix+"/"+view;
+
+        if (!view.endsWith(viewSuffix)) {
+            viewPath += viewSuffix;
+        }
+
+        return viewPath.replaceAll("[/]+", "/");
+
+        }
+
     public static void main(String args[]){
 
-       System.out.print( parsePath("/aaa/卧槽"));
+       System.out.print( getViewPath("hello"));
     }
+
+
 
 }

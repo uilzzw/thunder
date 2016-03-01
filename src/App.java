@@ -9,5 +9,6 @@ public class App implements Lightning {
     public void init(Thunder thunder) {
         Index index = new Index();
         thunder.addRoute("/index.do", "index", index);
+
     }
 }

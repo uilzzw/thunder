@@ -42,7 +42,7 @@ public class ThunderDispatcher extends HttpServlet {
 
     public void init(ServletConfig servletConfig){
 
-            servletContext = servletConfig.getServletContext();
+
             Thunder zeus  = Thunder.zeus();
             if(!zeus.isInit){
 
@@ -54,6 +54,9 @@ public class ThunderDispatcher extends HttpServlet {
                 if(null != routes){
                     routeMatcher.setRouteList(routes.getRoutelist());
                 }
+
+                servletContext = servletConfig.getServletContext();
+
                 zeus.setIsInit(true);
 
             }
@@ -68,7 +71,6 @@ public class ThunderDispatcher extends HttpServlet {
         Route route =routeMatcher.findRoute(uri);
 
 
-
         if (route != null) {
             // 实际执行方法
             handle(httpServletRequest,httpServletResponse, route);
@@ -81,9 +83,11 @@ public class ThunderDispatcher extends HttpServlet {
     public   void  handle(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse,Route route){
 
 
-// 初始化上下文
+
         Request request = new Request(httpServletRequest);
+
         Response response = new Response(httpServletResponse);
+// 初始化上下文
         ThunderContext.initContext(servletContext, request, response);
 
         Object controller = route.getController();

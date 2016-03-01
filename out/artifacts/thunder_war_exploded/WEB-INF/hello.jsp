@@ -1,22 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: icepoint1999
-  Date: 2/29/16
-  Time: 7:29 PM
+  Date: 3/1/16
+  Time: 11:05 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
+<head>
     <title></title>
-    <form method="get" action="/index.do">
-
-      <input type="text" name="name">
-      <button type="submit">tijiao</button>
-
-    </form>
-  </head>
-  <body>
-
-  </body>
+</head>
+<body>
+hello world
+</body>
 </html>
