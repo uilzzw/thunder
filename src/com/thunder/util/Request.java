@@ -33,4 +33,10 @@ public  class Request {
 
     }
 
+    public int resourceId(){
+
+        return Integer.parseInt(servletRequest.getRequestURI().split("/")[2]);
+
+    }
+
 }

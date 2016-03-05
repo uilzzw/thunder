@@ -33,31 +33,32 @@ public class RouteMatcher {
 
 //    根据path查找路由  返回查询到得路由
 
-  public Route findRoute(String path){
+  public Route findRoute(String path,String method){
 
         List<Route> matchRoutes =  new ArrayList<Route>();
 
       for(Route route :this.routeList){
 
-            if(PathUtil.matchesPath(path,route.getPath())){
+            if(PathUtil.matchesPath(path,route.getPath())&&method.equals(route.getMethod())){
 
                     matchRoutes.add(route);
 
             }
       }
     //优先匹配原则
-      giveMacth(path,matchRoutes);
+      giveMacth(path,method,matchRoutes);
+
       return matchRoutes.size() > 0 ? matchRoutes.get(0) : null;
 
   }
 
 //    优先排序
-    private void giveMacth(final String uri ,List<Route> routes){
+    private void giveMacth(final String uri,final String method, List<Route> routes){
 
         Collections.sort(routes, new Comparator<Route>() {
             @Override
             public int compare(Route o1, Route o2) {
-                if(o2.getPath().equals(uri)){
+                if(o2.getPath().equals(uri)&&o2.getMethod().equals(method)){
 
                     return o2.getPath().indexOf(uri);
                 }

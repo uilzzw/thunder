@@ -1,5 +1,6 @@
 package com.thunder.util;
 
+import com.thunder.controller.Welcome;
 import com.thunder.core.Thunder;
 import com.thunder.core.Var;
 
@@ -114,9 +115,76 @@ public class PathUtil {
 
         }
 
+    public static  String getResource(String path){
+        String resource = path.split("/")[1];
+
+        return resource;
+    }
+
+    public static String matchResourceRoute(String path){
+
+        String resouce =PathUtil.getResource(path);
+
+        int length = path.split("/").length;
+
+        String [] params = path.split("/");
+
+        switch (length){
+            case 2 :
+
+               return path;
+
+            case 3 :
+
+                if(params[2].matches("[0-9]+")) {
+                   return resouce + "/:id";
+                }
+
+            case 4:
+
+                if(params[2].matches("[0-9]+")) {
+                    return resouce + "/:id/"+params[3];
+                }
+
+            default: return path;
+        }
+
+    }
+
+
+    public static String matchResourceMethod(String path){
+
+        String resouce =PathUtil.getResource(path);
+
+        int length = path.split("/").length;
+
+        String [] params = path.split("/");
+
+        switch (length){
+            case 2 :
+
+                return "index";
+
+            case 3 :
+
+                if(params[2].matches("[0-9]+")) {
+                    return "show";
+                }
+
+            case 4:
+
+                if(params[2].matches("[0-9]+")&&params[3].equals("edit")) {
+                    return "edit";
+                }
+
+            default: return "index";
+        }
+
+    }
+
     public static void main(String args[]){
 
-       System.out.print( getViewPath("hello"));
+
     }
 
 

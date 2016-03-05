@@ -2,6 +2,7 @@ package com.thunder.core;
 
 import com.thunder.render.JspRender;
 import com.thunder.render.Render;
+import com.thunder.resources.Resources;
 import com.thunder.route.Routes;
 import com.thunder.util.ConfigLoader;
 import com.thunder.util.Request;
@@ -16,6 +17,10 @@ public final class Thunder {
 
 //    存放所有路由
     private Routes routes;
+
+//    存放所有restful资源
+
+    private Resources resources;
 
 //    配置加载
 
@@ -37,6 +42,7 @@ public final class Thunder {
 
     private Thunder(){
         routes = new Routes();
+        resources =new Resources();
         configLoader = new ConfigLoader();
         render = new JspRender();
     }
@@ -73,17 +79,117 @@ public final class Thunder {
         return configLoader.getConf(name);
     }
 
-    public Thunder addRoute(String path ,String methodName ,Object controller){
+    public Thunder addGetRoute(String path ,String methodName ,Object controller){
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
 
-            this.routes.addRoute(path,method,controller);
+            this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
         return this;
 
+
+    }
+
+    public Thunder addPostRoute(String path ,String methodName ,Object controller){
+
+        try {
+            Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
+
+            this.routes.addRoute(path,Var.GET, method,controller);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return this;
+
+
+    }
+
+    public Thunder addDeleteRoute(String path ,String methodName ,Object controller){
+
+        try {
+            Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
+
+            this.routes.addRoute(path,Var.GET, method,controller);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return this;
+
+
+    }
+
+    public Thunder addPutRoute(String path ,String methodName ,Object controller){
+
+        try {
+            Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
+
+            this.routes.addRoute(path,Var.GET, method,controller);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return this;
+
+
+    }
+
+    public Thunder addPatchRoute(String path ,String methodName ,Object controller){
+
+        try {
+            Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
+
+            this.routes.addRoute(path,Var.GET, method,controller);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return this;
+
+
+    }
+
+    public Thunder addRoute(String path ,String method, String action ,Object controller){
+
+        try {
+            Method methodAction =controller.getClass().getMethod(action, Request.class , Response.class);
+
+            this.routes.addRoute(path,  method, methodAction ,controller);
+
+          }
+            catch (NoSuchMethodException e) {
+               e.printStackTrace();
+        }
+
+         return this;
+
+
+    }
+
+    public Thunder addResource(String name ,Object controller)  {
+
+        this.resources.addResource(name,controller);
+
+        try {
+
+            Method index =controller.getClass().getMethod("index", Request.class , Response.class);
+
+            Method show =controller.getClass().getMethod("show", Request.class , Response.class);
+
+            String index_path = "/"+name;
+
+            String show_path  = "/"+name +"/:id";
+
+            this.routes.addRoute(index_path, Var.GET, index, controller);
+
+            this.routes.addRoute(show_path, Var.GET, show, controller);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+
+    return this;
 
     }
 
@@ -105,5 +211,13 @@ public final class Thunder {
 
     public void setRender(Render render) {
         this.render = render;
+    }
+
+    public Resources getResources() {
+        return resources;
+    }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
     }
 }

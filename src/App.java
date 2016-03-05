@@ -1,3 +1,4 @@
+import com.thunder.controller.Welcome;
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
 
@@ -8,7 +9,10 @@ public class App implements Lightning {
     @Override
     public void init(Thunder thunder) {
         Index index = new Index();
-        thunder.addRoute("/index.do", "index", index);
+        Welcome welcome =new Welcome();
+        thunder.addGetRoute("/index", "index", index);
+
+        thunder.addResource("welcome",welcome);
 
     }
 }

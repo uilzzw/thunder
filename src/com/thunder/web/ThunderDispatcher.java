@@ -2,13 +2,14 @@ package com.thunder.web;
 
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
+import com.thunder.core.Var;
+import com.thunder.resources.Resource;
+import com.thunder.resources.ResourceMatcher;
+import com.thunder.resources.Resources;
 import com.thunder.route.Route;
 import com.thunder.route.RouteMatcher;
 import com.thunder.route.Routes;
-import com.thunder.util.MethodUtil;
-import com.thunder.util.PathUtil;
-import com.thunder.util.Request;
-import com.thunder.util.Response;
+import com.thunder.util.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +32,8 @@ public class ThunderDispatcher extends HttpServlet {
     private ServletContext servletContext;
 
     private RouteMatcher routeMatcher = new RouteMatcher(new ArrayList<Route>());
+
+    private ResourceMatcher resourceMatcher = new ResourceMatcher(new ArrayList<Resource>());
 
 
     public ThunderDispatcher() {
@@ -50,9 +54,18 @@ public class ThunderDispatcher extends HttpServlet {
                 Lightning lightning = this.getLighting(className);
                 lightning.init(zeus);
                 Routes routes =zeus.getRoutes();
+                Resources resources = zeus.getResources();
 
                 if(null != routes){
                     routeMatcher.setRouteList(routes.getRoutelist());
+                }
+
+
+
+                if(null != resources){
+
+                    resourceMatcher.setResourceList(resources.getResourcesList());
+
                 }
 
                 servletContext = servletConfig.getServletContext();
@@ -64,35 +77,53 @@ public class ThunderDispatcher extends HttpServlet {
     }
 
     public void service(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse){
-        System.out.print("in this function");
-        //请求的uri
-        String uri = PathUtil.getRelativePath(httpServletRequest);
 
-        Route route =routeMatcher.findRoute(uri);
+            //请求的uri
+            String uri =httpServletRequest.getRequestURI();
+
+            Resource resource = resourceMatcher.findResource(PathUtil.getResource(uri));
+
+            System.out.println(uri);
+
+            Route route ;
+        //优先判断是否属于资源。
+            if (resource ==null) {
+
+                 route =routeMatcher.findRoute(uri,httpServletRequest.getMethod());
+
+            }else{
+                Method action = null;
+                try {
+                    action = resource.getController().getClass().getMethod(PathUtil.matchResourceMethod(uri),Request.class,Response.class);
+
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+                route= new Route(uri,resource.getController(),action,Var.GET);
+            }
 
 
-        if (route != null) {
-            // 实际执行方法
-            handle(httpServletRequest,httpServletResponse, route);
+             if (route != null) {
+                    // 实际执行方法
 
-        }
+                    handle(httpServletRequest, httpServletResponse, route);
+
+                }
     }
 
 
 
     public   void  handle(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse,Route route){
 
-
-
         Request request = new Request(httpServletRequest);
 
         Response response = new Response(httpServletResponse);
-// 初始化上下文
+        // 初始化上下文
         ThunderContext.initContext(servletContext, request, response);
 
         Object controller = route.getController();
         // 要执行的路由方法
-        Method actionMethod = route.getMethod();
+        Method actionMethod = route.getAction();
         // 执行route方法
         MethodUtil.doMethod(controller, actionMethod, request, response);
 

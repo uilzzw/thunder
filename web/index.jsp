@@ -9,7 +9,7 @@
 <html>
   <head>
     <title></title>
-    <form method="get" action="/index.do">
+    <form method="get" action="/index">
 
       <input type="text" name="name">
       <button type="submit">tijiao</button>

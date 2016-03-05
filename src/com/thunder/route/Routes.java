@@ -27,11 +27,12 @@ public class Routes {
         routelist.add(route);
     }
 
-    public void addRoute(String path ,Method method ,Object controller){
+    public void addRoute(String path ,String method,Method action ,Object controller){
 
         Route route = new Route();
         route.setPath(path);
         route.setController(controller);
+        route.setAction(action);
         route.setMethod(method);
         routelist.add(route);
 

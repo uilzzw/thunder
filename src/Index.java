@@ -9,7 +9,9 @@ public class Index {
     public void index(Request request ,Response response){
 
 
-        System.out.print(request.params("name"));
+        System.out.print(request.getServletRequest().getMethod());
+
+
 
         response.render("hello");
 
