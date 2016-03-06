@@ -15,6 +15,9 @@ import java.io.Writer;
  */
 public class JspRender  implements  Render{
 
+
+
+
     public  void render(String view, Writer writer) {
 
     String viewPath = PathUtil.getViewPath(view);
