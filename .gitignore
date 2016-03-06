@@ -1,0 +1,7 @@
+/out
+/.idea
+/target
+/thunder.iml
+/.DS_Store
+/src/main/webapp
+/src/main/java/test

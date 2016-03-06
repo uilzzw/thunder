@@ -1,0 +1,155 @@
+package com.thunder.web;
+
+import com.thunder.core.Lightning;
+import com.thunder.core.Thunder;
+import com.thunder.core.Var;
+import com.thunder.resources.Resource;
+import com.thunder.resources.ResourceMatcher;
+import com.thunder.resources.Resources;
+import com.thunder.route.Route;
+import com.thunder.route.RouteMatcher;
+import com.thunder.route.Routes;
+import com.thunder.util.*;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
+/**
+ * Created by icepoint1999 on 2/29/16.
+ */
+public class ThunderDispatcher extends HttpServlet {
+
+    private Lightning lightning;
+
+    private Thunder thunder;
+
+    private ServletContext servletContext;
+
+    private RouteMatcher routeMatcher = new RouteMatcher(new ArrayList<Route>());
+
+    private ResourceMatcher resourceMatcher = new ResourceMatcher(new ArrayList<Resource>());
+
+
+    public ThunderDispatcher() {
+    }
+    public ThunderDispatcher(Lightning lightning) {
+
+        this.lightning = lightning;
+        thunder.init();
+    }
+
+    public void init(ServletConfig servletConfig){
+
+
+            Thunder zeus  = Thunder.zeus();
+            if(!zeus.isInit){
+
+                String className =  servletConfig.getInitParameter("lighting");
+                Lightning lightning = this.getLighting(className);
+                lightning.init(zeus);
+                Routes routes =zeus.getRoutes();
+                Resources resources = zeus.getResources();
+
+                if(null != routes){
+                    routeMatcher.setRouteList(routes.getRoutelist());
+                }
+
+
+
+                if(null != resources){
+
+                    resourceMatcher.setResourceList(resources.getResourcesList());
+
+                }
+
+                servletContext = servletConfig.getServletContext();
+
+                zeus.setIsInit(true);
+
+            }
+
+    }
+
+    public void service(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse){
+
+            //请求的uri
+            String uri =httpServletRequest.getRequestURI();
+
+            Resource resource = resourceMatcher.findResource(PathUtil.getResource(uri));
+
+            Route route ;
+        //优先判断是否属于资源。
+            if (resource ==null) {
+
+                 route =routeMatcher.findRoute(uri,httpServletRequest.getMethod());
+
+            }else{
+//                Method action = null;
+//                try {
+//                    action = resource.getController().getClass().getMethod(PathUtil.matchResourceMethod(uri),Request.class,Response.class);
+//
+//                } catch (NoSuchMethodException e){
+//                    e.printStackTrace();
+//                }
+                route= routeMatcher.findRoute(PathUtil.matchResourceRoute(uri),httpServletRequest.getMethod());
+            }
+
+
+             if (route != null) {
+                    // 实际执行方法
+
+                    handle(httpServletRequest, httpServletResponse, route);
+
+                }
+    }
+
+
+
+    public   void  handle(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse,Route route){
+
+        Request request = new Request(httpServletRequest);
+
+        Response response = new Response(httpServletResponse);
+        // 初始化上下文
+        ThunderContext.initContext(servletContext, request, response);
+
+        Object controller = route.getController();
+        // 要执行的路由方法
+        Method actionMethod = route.getAction();
+        // 执行route方法
+        MethodUtil.doMethod(controller, actionMethod, request, response);
+
+
+
+    }
+
+    private  Lightning  getLighting(String classname){
+
+    if(null!=classname){
+
+        try {
+            Class<?> clazz = Class.forName(classname);
+            Lightning lightning = (Lightning) clazz.newInstance();
+            return lightning;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+        throw new RuntimeException("init lightning class error!");
+    }
+
+
+
+
+}
