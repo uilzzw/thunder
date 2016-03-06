@@ -9,9 +9,10 @@
 <html>
   <head>
     <title></title>
-    <form method="get" action="/index">
+    <form method="post" action="/welcome/create">
 
-      <input type="text" name="name">
+      <input type="text" name="User.name">
+      <input type="text" name="User.passsss">
       <button type="submit">tijiao</button>
 
     </form>

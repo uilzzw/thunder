@@ -1,24 +1,40 @@
 package com.thunder.util;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by icepoint1999 on 2/29/16.
  */
 public class Util {
 
-    //获取resouce的class object
 
-    public static Object matchController(String name,String path){
+    public static String getclassName(Class  T){
 
-        Object object = null ;
+         String path = T.getName();
+
+        String[] var = path.split("[.]");
+
+        return var[var.length-1];
+    }
+
+    public static void setVar(Class T){
 
         try {
-            object = Class.forName(path+"."+name);
-
-        } catch (ClassNotFoundException e) {
+            Object object = T.newInstance();
+            Field field = T.getDeclaredField("name");
+            field.setAccessible(true);
+            field.set(object,"ss");
+            System.out.println(field.get(object));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }  catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
             e.printStackTrace();
         }
 
-        return object;
+
+
     }
 
 }

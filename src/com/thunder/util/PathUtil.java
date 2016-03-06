@@ -137,16 +137,19 @@ public class PathUtil {
             case 3 :
 
                 if(params[2].matches("[0-9]+")) {
-                   return resouce + "/:id";
+                   return "/"+resouce + "/:id";
+                }else if(params[2].equals("create")){
+
+                    return "/"+resouce + "/create";
                 }
 
             case 4:
 
                 if(params[2].matches("[0-9]+")) {
-                    return resouce + "/:id/"+params[3];
+                    return "/"+resouce + "/:id/"+params[3];
                 }
 
-            default: return path;
+            default: return null;
         }
 
     }
@@ -162,14 +165,16 @@ public class PathUtil {
 
         switch (length){
             case 2 :
-
                 return "index";
-
             case 3 :
 
                 if(params[2].matches("[0-9]+")) {
                     return "show";
-                }
+                }else if(params[2].equals("create")){
+
+                    return "create";
+
+                    }
 
             case 4:
 
@@ -177,15 +182,20 @@ public class PathUtil {
                     return "edit";
                 }
 
-            default: return "index";
+                if(params[2].matches("[0-9]+")&&params[3].equals("delete")) {
+                    return "delete";
+                }
+
+                if(params[2].matches("[0-9]+")&&params[3].equals("update")) {
+                    return "update";
+                }
+
+            default: return null;
         }
 
     }
 
-    public static void main(String args[]){
 
-
-    }
 
 
 

@@ -83,8 +83,6 @@ public class ThunderDispatcher extends HttpServlet {
 
             Resource resource = resourceMatcher.findResource(PathUtil.getResource(uri));
 
-            System.out.println(uri);
-
             Route route ;
         //优先判断是否属于资源。
             if (resource ==null) {
@@ -92,14 +90,14 @@ public class ThunderDispatcher extends HttpServlet {
                  route =routeMatcher.findRoute(uri,httpServletRequest.getMethod());
 
             }else{
-                Method action = null;
-                try {
-                    action = resource.getController().getClass().getMethod(PathUtil.matchResourceMethod(uri),Request.class,Response.class);
-
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-                route= new Route(uri,resource.getController(),action,Var.GET);
+//                Method action = null;
+//                try {
+//                    action = resource.getController().getClass().getMethod(PathUtil.matchResourceMethod(uri),Request.class,Response.class);
+//
+//                } catch (NoSuchMethodException e){
+//                    e.printStackTrace();
+//                }
+                route= routeMatcher.findRoute(PathUtil.matchResourceRoute(uri),httpServletRequest.getMethod());
             }
 
 
