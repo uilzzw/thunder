@@ -83,20 +83,6 @@ public  class Request {
 
     }
 
-    public static void main(String args[]){
 
-        try {
-            System.out.print(User.class.getDeclaredField("pass"));
-            Object object = User.class.newInstance();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
 }

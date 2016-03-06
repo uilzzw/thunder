@@ -1,6 +1,5 @@
 package com.thunder.util;
 
-import com.thunder.controller.Welcome;
 import com.thunder.core.Thunder;
 import com.thunder.core.Var;
 
