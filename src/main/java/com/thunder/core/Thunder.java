@@ -216,15 +216,10 @@ public final class Thunder {
 
             this.routes.addRoute(update_path, Var.PATCH, update, controller);
 
-<<<<<<< HEAD
-        } catch (NoSuchMethodException e) {
-
-=======
-
 
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
->>>>>>> 8bbceaef4437c38855ad279b3d28bc89d4200987
+
+
         }
 
 
