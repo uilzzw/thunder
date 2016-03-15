@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by icepoint1999 on 2/29/16.
@@ -12,6 +13,8 @@ import java.util.List;
 public class Routes {
 
     private List<Route> routelist = new ArrayList<Route>();
+
+    private static final Logger LOGGER = Logger.getLogger(Routes.class.getName());
 
     public Routes(){
 
@@ -35,7 +38,7 @@ public class Routes {
         route.setAction(action);
         route.setMethod(method);
         routelist.add(route);
-
+        LOGGER.info("Add Routes" + path);
 
     }
     public void removeRoute(Route route){

@@ -9,11 +9,15 @@ import com.thunder.util.Request;
 import com.thunder.util.Response;
 
 import java.lang.reflect.Method;
+import java.util.logging.Logger;
 
 /**
  * Created by icepoint1999 on 2/29/16.
  */
 public final class Thunder {
+
+
+    private static final Logger LOGGER = Logger.getLogger(Thunder.class.getName());
 
 //    存放所有路由
     private Routes routes;
@@ -99,8 +103,10 @@ public final class Thunder {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
 
             this.routes.addRoute(path,Var.GET, method,controller);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+
+        }
+         catch (NoSuchMethodException e) {
+           LOGGER.info("uri:"+path +"-->"+Var.GET);
         }
         return this;
 
@@ -114,10 +120,9 @@ public final class Thunder {
 
             this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+
         }
         return this;
-
 
     }
 
@@ -170,60 +175,67 @@ public final class Thunder {
 
         this.resources.addResource(name,controller);
 
+
         try {
 
             Method index =controller.getClass().getMethod("index", Request.class , Response.class);
-
-            Method show =controller.getClass().getMethod("show", Request.class , Response.class);
-
-            Method edit =controller.getClass().getMethod("edit", Request.class , Response.class);
-
-            Method create =controller.getClass().getMethod("create", Request.class , Response.class);
-
-            Method update =controller.getClass().getMethod("update", Request.class , Response.class);
-
-            Method fresh =controller.getClass().getMethod("fresh", Request.class , Response.class);
-
-            Method delete =controller.getClass().getMethod("delete", Request.class , Response.class);
-
             String index_path = "/"+name;
-
-            String show_path  = "/"+name +"/:id";
-
-            String edit_path  = "/"+name +"/:id/edit";
-
-            String delete_path = "/"+name +"/:id/delete";
-
-            String update_path = "/"+name +"/:id/update";
-
-            String create_path = "/"+name +"/create";
-
-            String fresh_path = "/"+name +"/new";
-
             this.routes.addRoute(index_path, Var.GET, index, controller);
+        }
+             catch (NoSuchMethodException e) {
 
+         }
+        Method show = null;
+        try {
+            show = controller.getClass().getMethod("show", Request.class , Response.class);
+            String show_path  = "/"+name +"/:id";
             this.routes.addRoute(show_path, Var.GET, show, controller);
-
-            this.routes.addRoute(edit_path, Var.GET, edit, controller);
-
-            this.routes.addRoute(fresh_path, Var.GET, fresh, controller);
-
-            this.routes.addRoute(delete_path, Var.DELETE, delete, controller);
-
-            this.routes.addRoute(update_path, Var.PUT, update, controller);
-
-            this.routes.addRoute(create_path, Var.POST, create, controller);
-
-            this.routes.addRoute(update_path, Var.PATCH, update, controller);
-
-
         } catch (NoSuchMethodException e) {
-
-
+            e.printStackTrace();
+        }
+        Method edit = null;
+        try {
+            edit = controller.getClass().getMethod("edit", Request.class , Response.class);
+            String edit_path  = "/"+name +"/:id/edit";
+            this.routes.addRoute(edit_path, Var.GET, edit, controller);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
 
-
-    return this;
+        Method create = null;
+        try {
+            create = controller.getClass().getMethod("create", Request.class , Response.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        String create_path = "/"+name +"/create";
+            this.routes.addRoute(create_path, Var.POST, create, controller);
+        Method update = null;
+        try {
+            update = controller.getClass().getMethod("update", Request.class , Response.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        String update_path = "/"+name +"/:id/update";
+            this.routes.addRoute(update_path, Var.PUT, update, controller);
+            this.routes.addRoute(update_path, Var.PATCH, update, controller);
+        Method fresh = null;
+        try {
+            fresh = controller.getClass().getMethod("fresh", Request.class , Response.class);
+        } catch (NoSuchMethodException e) {
+           LOGGER.info("CAN NOT FOUND This Method");
+        }
+        String fresh_path = "/"+name +"/new";
+            this.routes.addRoute(fresh_path, Var.GET, fresh, controller);
+        Method delete = null;
+        try {
+            delete = controller.getClass().getMethod("delete", Request.class , Response.class);
+        } catch (NoSuchMethodException e) {
+           LOGGER.info("can not find this function");
+        }
+        String delete_path = "/"+name +"/:id/delete";
+            this.routes.addRoute(delete_path, Var.DELETE, delete, controller);
+        return this;
 
     }
 
