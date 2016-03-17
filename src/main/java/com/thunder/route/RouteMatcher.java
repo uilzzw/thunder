@@ -42,7 +42,6 @@ public class RouteMatcher {
             if(PathUtil.matchesPath(path,route.getPath())&&method.equals(route.getMethod())){
 
                     matchRoutes.add(route);
-
             }
       }
     //优先匹配原则
@@ -52,6 +51,24 @@ public class RouteMatcher {
 
   }
 
+    public Route findRouteTarget(String path,String method,String target){
+
+        List<Route> matchRoutes =  new ArrayList<Route>();
+
+        for(Route route :this.routeList){
+
+            if(PathUtil.matchesPath(path,route.getPath())&&method.equals(route.getMethod())&&target.equals(route.getTarget())){
+
+                matchRoutes.add(route);
+            }
+        }
+        //优先匹配原则
+        giveMacth(path,method,target,matchRoutes);
+
+        return matchRoutes.size() > 0 ? matchRoutes.get(0) : null;
+
+    }
+
 //    优先排序
     private void giveMacth(final String uri,final String method, List<Route> routes){
 
@@ -59,6 +76,22 @@ public class RouteMatcher {
             @Override
             public int compare(Route o1, Route o2) {
                 if(o2.getPath().equals(uri)&&o2.getMethod().equals(method)){
+
+                    return o2.getPath().indexOf(uri);
+                }
+                return -1;
+            }
+        });
+
+    }
+
+    //    优先排序
+    private void giveMacth(final String uri,final String method,final String target, List<Route> routes){
+
+        Collections.sort(routes, new Comparator<Route>() {
+            @Override
+            public int compare(Route o1, Route o2) {
+                if(o2.getPath().equals(uri)&&o2.getMethod().equals(method)&&o2.equals(target)){
 
                     return o2.getPath().indexOf(uri);
                 }

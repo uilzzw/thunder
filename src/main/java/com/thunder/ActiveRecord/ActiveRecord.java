@@ -107,7 +107,7 @@ public class ActiveRecord {
         connection.createQuery(buildSql(this.customSql)).executeUpdate();
     }
 
-  
+
 
 
 }

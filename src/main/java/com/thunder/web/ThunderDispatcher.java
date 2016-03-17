@@ -69,9 +69,7 @@ public class ThunderDispatcher extends HttpServlet {
                 }
 
                 servletContext = servletConfig.getServletContext();
-
                 zeus.setIsInit(true);
-
             }
 
     }
@@ -90,23 +88,13 @@ public class ThunderDispatcher extends HttpServlet {
                  route =routeMatcher.findRoute(uri,httpServletRequest.getMethod());
 
             }else{
-//                Method action = null;
-//                try {
-//                    action = resource.getController().getClass().getMethod(PathUtil.matchResourceMethod(uri),Request.class,Response.class);
-//
-//                } catch (NoSuchMethodException e){
-//                    e.printStackTrace();
-//                }
                 route= routeMatcher.findRoute(PathUtil.matchResourceRoute(uri),httpServletRequest.getMethod());
             }
-
-
-             if (route != null) {
+            if (route != null) {
                     // 实际执行方法
+                 handle(httpServletRequest, httpServletResponse, route);
 
-                    handle(httpServletRequest, httpServletResponse, route);
-
-                }
+             }
     }
 
 
@@ -123,10 +111,18 @@ public class ThunderDispatcher extends HttpServlet {
         // 要执行的路由方法
         Method actionMethod = route.getAction();
         // 执行route方法
-        MethodUtil.doMethod(controller, actionMethod, request, response);
+        if(null!=routeMatcher.findRouteTarget(route.getPath(),route.getMethod(),"before")){
+            Route route1 = routeMatcher.findRouteTarget(route.getPath(),route.getMethod(),"before");
+            MethodUtil.doMethod(route1.getController(), route1.getAction(), request, response);
+        }
+        if(!response.getHttpServletResponse().isCommitted()){
+            MethodUtil.doMethod(controller, actionMethod, request, response);
+        }
 
-
-
+        if(null!=routeMatcher.findRouteTarget(route.getPath(),route.getMethod(),"after")){
+            Route route2 = routeMatcher.findRouteTarget(route.getPath(),route.getMethod(),"before");
+            MethodUtil.doMethod(route2.getController(), route2.getAction(), request, response);
+        }
     }
 
     private  Lightning  getLighting(String classname){

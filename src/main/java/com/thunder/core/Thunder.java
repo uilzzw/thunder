@@ -3,6 +3,9 @@ package com.thunder.core;
 import com.thunder.render.JspRender;
 import com.thunder.render.Render;
 import com.thunder.resources.Resources;
+import com.thunder.route.Route;
+import com.thunder.route.RouteHandler;
+import com.thunder.route.RouteMatcher;
 import com.thunder.route.Routes;
 import com.thunder.util.ConfigLoader;
 import com.thunder.util.Request;
@@ -235,6 +238,25 @@ public final class Thunder {
         }
         String delete_path = "/"+name +"/:id/delete";
             this.routes.addRoute(delete_path, Var.DELETE, delete, controller);
+        return this;
+
+    }
+
+
+    public Thunder before(String path,String method,RouteHandler routeHandler){
+        RouteMatcher routeMatcher = new RouteMatcher(this.routes.getRoutelist());
+        Route route = routeMatcher.findRoute(path,method);
+        Route route1 = new Route();
+        route1.setMethod(route.getMethod());
+        route1.setTarget("before");
+        route1.setController(routeHandler);
+        route1.setPath(route.getPath());
+        try {
+            route1.setAction(RouteHandler.class.getMethod("handle", Request.class, Response.class));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        this.routes.addRoute(route1);
         return this;
 
     }

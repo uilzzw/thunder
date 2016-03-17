@@ -21,6 +21,18 @@ public class Route {
 
     private String method;
 
+    //控制target
+
+    private String target;
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     public Route() {
 
     }
