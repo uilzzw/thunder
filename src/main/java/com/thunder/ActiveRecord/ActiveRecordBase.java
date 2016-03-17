@@ -1,5 +1,6 @@
 package com.thunder.ActiveRecord;
 
+import com.thunder.util.ObjectUtil;
 import com.thunder.util.Util;
 import org.sql2o.Connection;
 
@@ -23,7 +24,12 @@ public  abstract class ActiveRecordBase {
 
     public  static ActiveRecord find_by_sql(String sql){
         Connection connection = DB.sql2o.beginTransaction();
-        return new ActiveRecord(connection,sql);
+        CustomSql customSql = new CustomSql();
+        customSql.setSql(sql);
+        ActiveRecord activeRecord = new ActiveRecord();
+        activeRecord.setCustomSql(customSql);
+        activeRecord.setConnection(connection);
+        return activeRecord;
     }
 
     public static ActiveRecord where(String params , String value){
@@ -33,8 +39,35 @@ public  abstract class ActiveRecordBase {
         list.add(whereParams);
         ActiveRecord activeRecord = new ActiveRecord();
         activeRecord.setConnection(connection);
-        activeRecord.setWhere_params(list);
-        activeRecord.setCustomSql("select * from #table# ");
+        CustomSql customSql = new CustomSql();
+        customSql.setWhere(list);
+        activeRecord.setCustomSql(customSql);
+        return activeRecord;
+    }
+
+    public static ActiveRecord whereGt(String key ,String value ){
+        Connection connection = DB.sql2o.beginTransaction();
+        List<WhereParams> list = new ArrayList<WhereParams>();
+        WhereParams whereParams = new WhereParams(key,value,">");
+        list.add(whereParams);
+        ActiveRecord activeRecord = new ActiveRecord();
+        activeRecord.setConnection(connection);
+        CustomSql customSql = new CustomSql();
+        customSql.setWhere(list);
+        activeRecord.setCustomSql(customSql);
+        return activeRecord;
+    }
+
+    public static ActiveRecord whereLt(String key ,String value ){
+        Connection connection = DB.sql2o.beginTransaction();
+        List<WhereParams> list = new ArrayList<WhereParams>();
+        WhereParams whereParams = new WhereParams(key,value,"<");
+        list.add(whereParams);
+        ActiveRecord activeRecord = new ActiveRecord();
+        activeRecord.setConnection(connection);
+        CustomSql customSql = new CustomSql();
+        customSql.setWhere(list);
+        activeRecord.setCustomSql(customSql);
         return activeRecord;
     }
 
@@ -51,8 +84,9 @@ public  abstract class ActiveRecordBase {
             }
             i++;
         }
-        System.out.print(select);
-        activeRecord.setCustomSql(select+" from #table# ");
+        CustomSql customSql = new CustomSql() ;
+        customSql.setSelect(select);
+        activeRecord.setCustomSql(customSql);
         activeRecord.setConnection(connection);
         return activeRecord;
     }
@@ -88,7 +122,9 @@ public  abstract class ActiveRecordBase {
         Connection connection = DB.sql2o.beginTransaction();
         String sql = "select * from ";
         ActiveRecord activeRecord = new ActiveRecord();
-        activeRecord.setCustomSql(sql);
+        CustomSql customSql = new CustomSql();
+        customSql.setSql(sql);
+        activeRecord.setCustomSql(customSql);
         return activeRecord;
     }
 
@@ -99,4 +135,10 @@ public  abstract class ActiveRecordBase {
         List<T> list = connection.createQuery(sql).executeAndFetch(tClass);
         return list;
     }
+
+    public static void update(int id ,Object object){
+        Map map = ObjectUtil.getFiledValue(object);
+        
+    }
+
 }
