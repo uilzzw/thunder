@@ -75,9 +75,10 @@
   public class App implements Lightning{
 
     public void init(Thunder thunder) {
-      //这里会增加restful 六条路由
+      //这里会增加restful 7条路由
         //get -> /welcome  method:index
-        //post -> /welcome/new  method:fresh
+        //get -> /welcome/new  method:fresh
+        //post -> /welcome/create  method:create
         //put  -> /welcome/:id/update method:update
         //get  -> /welcome/:id/edit   method:edit
         //delete  -> /welcome/:id/delete method:delete
