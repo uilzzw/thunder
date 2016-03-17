@@ -1,4 +1,4 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
 /**
  * Created by icepoint1999 on 3/16/16.

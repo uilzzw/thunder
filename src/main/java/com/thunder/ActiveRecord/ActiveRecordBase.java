@@ -1,4 +1,4 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
 import com.thunder.util.ObjectUtil;
 import com.thunder.util.Util;
@@ -6,7 +6,6 @@ import org.sql2o.Connection;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -152,9 +151,9 @@ public  abstract class ActiveRecordBase {
         System.out.print(sql);
     }
 
-//    public static ActiveRecord updateBy(Object o){
+//    public static activeRecord updateBy(Object o){
 //        Connection connection = DB.sql2o.beginTransaction();
-//        ActiveRecord ac = new ActiveRecord();
+//        activeRecord ac = new activeRecord();
 //        CustomSql customSql = new CustomSql();
 //        customSql.setUpdate(o);
 //        ac.setCustomSql(customSql);

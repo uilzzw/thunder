@@ -1,19 +1,16 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
 import com.thunder.util.Util;
-import jdk.nashorn.internal.objects.annotations.Where;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by icepoint1999 on 3/15/16.
  */
-public class ActiveRecord {
+public final class ActiveRecord {
 
     private Connection connection;
     private CustomSql customSql;

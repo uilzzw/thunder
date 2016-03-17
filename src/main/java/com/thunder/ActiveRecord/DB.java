@@ -1,10 +1,6 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import test.model.User;
-
-import java.util.List;
 
 /**
  * Created by icepoint1999 on 3/14/16.
