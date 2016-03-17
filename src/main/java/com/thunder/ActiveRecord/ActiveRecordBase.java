@@ -153,8 +153,12 @@ public  abstract class ActiveRecordBase {
     }
 
 //    public static ActiveRecord updateBy(Object o){
-//
-//
+//        Connection connection = DB.sql2o.beginTransaction();
+//        ActiveRecord ac = new ActiveRecord();
+//        CustomSql customSql = new CustomSql();
+//        customSql.setUpdate(o);
+//        ac.setCustomSql(customSql);
+//        return ac;
 //
 //    }
 

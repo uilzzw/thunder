@@ -34,59 +34,81 @@ public class ActiveRecord {
         this.connection = connection;
     }
 
-    public <T> List<T> list(Class<T> type){
-        List<T> result =null;
+    public <T> List<T> list(Class<T> type) {
+        List<T> result = null;
         Query query = null;
         String sql = buildSql(this.customSql);
-        sql = sql.replaceAll("#table#",Util.getclassName(type).toLowerCase());
+        sql = sql.replaceAll("#table#", Util.getclassName(type).toLowerCase());
         System.out.println(sql);
         query = connection.createQuery(sql);
         result = query.executeAndFetch(type);
         this.connection.close();
         return result;
     }
-    public <T> T one(Class<T> type){
+
+    public <T> T one(Class<T> type) {
         return list(type).get(0);
     }
 
 
-    public static String buildSql(CustomSql customSql){
-      return customSql.getSql();
+    public static String buildSql(CustomSql customSql) {
+        return customSql.getSql();
     }
 
     public ActiveRecord() {
 
     }
-    public ActiveRecord wherelt(String key ,String value){
-        WhereParams whereParams = new WhereParams(key,value,"<");
-        if(null != this.customSql.where){
+
+    public ActiveRecord wherelt(String key, String value) {
+        WhereParams whereParams = new WhereParams(key, value, "<");
+        if (null != this.customSql.where) {
             this.customSql.where.add(whereParams);
-        }else{
+        } else {
             this.customSql.where = new ArrayList<WhereParams>();
             this.customSql.where.add(whereParams);
-        };
-        return this;
-    }
-    public ActiveRecord wheregt(String key ,String value){
-        WhereParams whereParams = new WhereParams(key,value,">");
-        if(null != this.customSql.where){
-            this.customSql.where.add(whereParams);
-        }else{
-            this.customSql.where = new ArrayList<WhereParams>();
-            this.customSql.where.add(whereParams);
-            };
+        }
+        ;
         return this;
     }
 
-    public ActiveRecord orderBy(String key){
+    public ActiveRecord wheregt(String key, String value) {
+        WhereParams whereParams = new WhereParams(key, value, ">");
+        if (null != this.customSql.where) {
+            this.customSql.where.add(whereParams);
+        } else {
+            this.customSql.where = new ArrayList<WhereParams>();
+            this.customSql.where.add(whereParams);
+        }
+        ;
+        return this;
+    }
 
+    public ActiveRecord where(String key, String value) {
+        WhereParams whereParams = new WhereParams(key, value, "=");
+        if (null != this.customSql.where) {
+            this.customSql.where.add(whereParams);
+        } else {
+            this.customSql.where = new ArrayList<WhereParams>();
+            this.customSql.where.add(whereParams);
+        }
+        ;
+        return this;
+    }
+
+    public ActiveRecord orderBy(String key) {
         this.customSql.setOrderBy(key);
         return this;
-
     }
 
 
+    public void update(Object o) {
+        this.customSql.setUpdate(o);
+        System.out.print(buildSql(this.customSql));
+        connection.createQuery(buildSql(this.customSql)).executeUpdate();
+    }
 
+  
 
 
 }
+

@@ -18,7 +18,7 @@ public class CustomSql {
     String sql ;
     Object update;
 
-    public String getSql() {
+    public String getSql(){
         String head = "";
         if(null!=update){
             Map<String,Object> map = ObjectUtil.getFiledValue(this.update);
@@ -28,9 +28,8 @@ public class CustomSql {
             String params ="";
             int i=0;
             for(String key : map.keySet()){
-                System.out.println(key +map.get(key));
                 if(null != map.get(key)&&key!="id"){
-                    params += key + "=" + map.get(key);
+                    params += key + "=" + "'"+map.get(key)+"'";
                 }
                 i++;
                 if(i < map.size()-1 &&key!="id"){
@@ -86,6 +85,14 @@ public class CustomSql {
 
     public String getOrderBy() {
         return null==orderBy ? "" :" order by " + orderBy;
+    }
+
+    public Object getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Object update) {
+        this.update = update;
     }
 
     public void setOrderBy(String orderBy) {
