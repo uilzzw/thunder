@@ -3,6 +3,6 @@ package com.thunder.ActiveRecord;
 /**
  * Created by icepoint1999 on 3/15/16.
  */
-public abstract class Model extends ActiveRecordBase {
+public final class Model extends ActiveRecordBase {
 
 }

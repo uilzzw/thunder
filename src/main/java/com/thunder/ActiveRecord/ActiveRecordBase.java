@@ -1,7 +1,10 @@
 package com.thunder.ActiveRecord;
 
+import com.thunder.util.Util;
 import org.sql2o.Connection;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,17 +28,75 @@ public  abstract class ActiveRecordBase {
 
     public static ActiveRecord where(String params , String value){
         Connection connection = DB.sql2o.beginTransaction();
-        Map map = new HashMap();
-        map.put(params,value);
-
-        return new ActiveRecord(connection,map);
+        List<WhereParams> list = new ArrayList<WhereParams>();
+        WhereParams whereParams = new WhereParams(params,value,"=");
+        list.add(whereParams);
+        ActiveRecord activeRecord = new ActiveRecord();
+        activeRecord.setConnection(connection);
+        activeRecord.setWhere_params(list);
+        activeRecord.setCustomSql("select * from #table# ");
+        return activeRecord;
     }
 
-//    public static ActiveRecord select(){
-//
-//        Connection connection = DB.sql2o.beginTransaction();
-//
-//    }
+    public static ActiveRecord select(String... args){
+        Connection connection = DB.sql2o.beginTransaction();
+        String[] selects = args;
+        ActiveRecord activeRecord = new ActiveRecord();
+        String select = "select ";
+        int i = 0;
+        for(String val :args){
+            select += val+" ";
+            if(i<args.length-1){
+                select+= ", ";
+            }
+            i++;
+        }
+        System.out.print(select);
+        activeRecord.setCustomSql(select+" from #table# ");
+        activeRecord.setConnection(connection);
+        return activeRecord;
+    }
 
+    public static void  save(Object object){
+        Connection connection = DB.sql2o.beginTransaction();
+        Field[] fields = object.getClass().getDeclaredFields();
+        StringBuffer key = new StringBuffer();
+        StringBuffer value = new StringBuffer();
+        String table = Util.getclassName(object.getClass()).toLowerCase();
+        int i=0;
+         for(Field field :fields){
+             field.setAccessible(true);
+             key.append(field.getName());
+             try {
+                 String v = null==field.get(object)?  "" : field.get(object).toString();
+                 value.append("'"+v+"'");
+             } catch (IllegalAccessException e) {
+                 e.printStackTrace();
+             }
+             i++;
+             if(i<fields.length){
+                 key.append(",");
+                 value.append(",");
+             }
+         }
+        String sql = "insert into "+table + "("+key +") values ("+value +")";
+        System.out.println("excute sql ------->"+sql);
+        connection.createQuery(sql).executeUpdate().commit();
+    }
 
+    public ActiveRecord all(){
+        Connection connection = DB.sql2o.beginTransaction();
+        String sql = "select * from ";
+        ActiveRecord activeRecord = new ActiveRecord();
+        activeRecord.setCustomSql(sql);
+        return activeRecord;
+    }
+
+    public  static  <T> List<T> find_all(Class<T> tClass){
+        Connection connection = DB.sql2o.beginTransaction();
+        String table = Util.getclassName(tClass).toLowerCase();
+        String sql = "select * from "+table;
+        List<T> list = connection.createQuery(sql).executeAndFetch(tClass);
+        return list;
+    }
 }
