@@ -22,14 +22,9 @@ public  abstract class ActiveRecordBase {
         return list.get(0);
     }
 
-    public  static ActiveRecord find_by_sql(String sql){
-        Connection connection = DB.sql2o.beginTransaction();
-        CustomSql customSql = new CustomSql();
-        customSql.setSql(sql);
-        ActiveRecord activeRecord = new ActiveRecord();
-        activeRecord.setCustomSql(customSql);
-        activeRecord.setConnection(connection);
-        return activeRecord;
+    public  static <T> List<T> find_by_sql(String sql){
+        List<T> list = (List<T>) DB.sql2o.beginTransaction().createQuery(sql).executeAndFetchTable().asList();
+        return list;
     }
 
     public static ActiveRecord where(String params , String value){
@@ -85,7 +80,7 @@ public  abstract class ActiveRecordBase {
             i++;
         }
         CustomSql customSql = new CustomSql() ;
-        customSql.setSelect(select);
+        customSql.setSelect(select+" from #table# ");
         activeRecord.setCustomSql(customSql);
         activeRecord.setConnection(connection);
         return activeRecord;
@@ -136,9 +131,33 @@ public  abstract class ActiveRecordBase {
         return list;
     }
 
-    public static void update(int id ,Object object){
-        Map map = ObjectUtil.getFiledValue(object);
-        
+    public static void update(Object object){
+        Map<String,Object> map = ObjectUtil.getFiledValue(object);
+        Connection connection = DB.sql2o.beginTransaction();
+        String tablename = Util.getclassName(object.getClass()).toLowerCase();
+        String sql = "update "+tablename + " set " ;
+        String params ="";
+        int i=0;
+        for(String key : map.keySet()){
+           if(null != map.get(key)&&key!="id"){
+               params += key + "=" + map.get(key);
+           }
+            i++;
+            if(i < map.size()-1 &&key!="id"){
+
+                params += ",";
+            }
+        }
+        sql += params + " where id = " + map.get("id");
+        System.out.print(sql);
     }
+
+//    public static ActiveRecord updateBy(Object o){
+//
+//
+//
+//    }
+
+
 
 }

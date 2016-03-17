@@ -1,19 +1,48 @@
 package com.thunder.ActiveRecord;
 
+import com.thunder.util.ObjectUtil;
+import com.thunder.util.Util;
+import org.sql2o.Connection;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by icepoint1999 on 3/17/16.
  */
 public class CustomSql {
-    String select = "select * ";
-    String from =" from #table# ";
+    String select = "select * from #table# ";
     List<WhereParams> where ;
     String orderBy;
     boolean is_desc =false;
     String sql ;
+    Object update;
 
     public String getSql() {
+        String head = "";
+        if(null!=update){
+            Map<String,Object> map = ObjectUtil.getFiledValue(this.update);
+            Connection connection = DB.sql2o.beginTransaction();
+            String tablename = Util.getclassName(this.update.getClass()).toLowerCase();
+            String sql = "update "+tablename + " set " ;
+            String params ="";
+            int i=0;
+            for(String key : map.keySet()){
+                System.out.println(key +map.get(key));
+                if(null != map.get(key)&&key!="id"){
+                    params += key + "=" + map.get(key);
+                }
+                i++;
+                if(i < map.size()-1 &&key!="id"){
+                    params += ",";
+                }
+            }
+            sql += params ;
+            head = sql;
+        }else{
+            head = this.select;
+
+        }
         if(null == this.sql){
             if(null!=this.where){
                 String params =" where ";
@@ -25,10 +54,10 @@ public class CustomSql {
                     }
                     i++;
                 }
-                this.sql = this.select + this.from + params + this.getOrderBy();
+                this.sql = head + params + this.getOrderBy();
             }else{
                 String params = "";
-                this.sql = this.select + this.from + params + this.getOrderBy();
+                this.sql = head  + params + this.getOrderBy();
             }
         }
         return this.sql;
@@ -46,13 +75,6 @@ public class CustomSql {
         this.select = select;
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
 
     public List<WhereParams> getWhere() {
         return where;

@@ -16,7 +16,7 @@ public class ObjectUtil {
         return fields;
     }
 
-    public static Map<String,String> getFiledValue(Object o){
+    public static Map<String,Object> getFiledValue(Object o){
         Map map = new HashMap();
         Field[] fields = o.getClass().getDeclaredFields();
         for (Field field : fields){
@@ -30,5 +30,7 @@ public class ObjectUtil {
         }
         return map;
     }
+
+
 
 }

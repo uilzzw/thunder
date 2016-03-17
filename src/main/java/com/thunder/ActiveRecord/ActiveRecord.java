@@ -37,11 +37,10 @@ public class ActiveRecord {
     public <T> List<T> list(Class<T> type){
         List<T> result =null;
         Query query = null;
-
-            String sql = buildSql(this.customSql);
-            sql = sql.replaceAll("#table#",Util.getclassName(type).toLowerCase());
-            System.out.println(sql);
-            query = connection.createQuery(sql);
+        String sql = buildSql(this.customSql);
+        sql = sql.replaceAll("#table#",Util.getclassName(type).toLowerCase());
+        System.out.println(sql);
+        query = connection.createQuery(sql);
         result = query.executeAndFetch(type);
         this.connection.close();
         return result;
