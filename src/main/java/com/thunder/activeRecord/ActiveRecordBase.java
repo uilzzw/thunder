@@ -22,7 +22,8 @@ public  abstract class ActiveRecordBase {
     }
 
     public  static <T> List<T> find_by_sql(String sql){
-        List<T> list = (List<T>) DB.sql2o.beginTransaction().createQuery(sql).executeAndFetchTable().asList();
+        @SuppressWarnings("unchecked")
+		List<T> list = (List<T>) DB.sql2o.beginTransaction().createQuery(sql).executeAndFetchTable().asList();
         return list;
     }
 
@@ -66,8 +67,6 @@ public  abstract class ActiveRecordBase {
     }
 
     public static ActiveRecord select(String... args){
-        Connection connection = DB.sql2o.beginTransaction();
-        String[] selects = args;
         ActiveRecord activeRecord = new ActiveRecord();
         String select = "select ";
         int i = 0;
@@ -81,7 +80,6 @@ public  abstract class ActiveRecordBase {
         CustomSql customSql = new CustomSql() ;
         customSql.setSelect(select+" from #table# ");
         activeRecord.setCustomSql(customSql);
-        activeRecord.setConnection(connection);
         return activeRecord;
     }
 
@@ -113,7 +111,6 @@ public  abstract class ActiveRecordBase {
     }
 
     public ActiveRecord all(){
-        Connection connection = DB.sql2o.beginTransaction();
         String sql = "select * from ";
         ActiveRecord activeRecord = new ActiveRecord();
         CustomSql customSql = new CustomSql();
@@ -132,7 +129,6 @@ public  abstract class ActiveRecordBase {
 
     public static void update(Object object){
         Map<String,Object> map = ObjectUtil.getFiledValue(object);
-        Connection connection = DB.sql2o.beginTransaction();
         String tablename = Util.getclassName(object.getClass()).toLowerCase();
         String sql = "update "+tablename + " set " ;
         String params ="";

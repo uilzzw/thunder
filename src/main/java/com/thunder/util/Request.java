@@ -42,9 +42,10 @@ public  class Request {
 
     }
 
-    public  Object getModel(Class c){
+    public  Object getModel(Class<?> c){
 
-        Map<String,String[]>  map =  servletRequest.getParameterMap();
+        @SuppressWarnings("unchecked")
+		Map<String,String[]>  map =  servletRequest.getParameterMap();
         Field filed =null;
         Object object = null;
         try {

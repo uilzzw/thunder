@@ -17,7 +17,7 @@ public class ObjectUtil {
     }
 
     public static Map<String,Object> getFiledValue(Object o){
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<String,Object>();
         Field[] fields = o.getClass().getDeclaredFields();
         for (Field field : fields){
             field.setAccessible(true);

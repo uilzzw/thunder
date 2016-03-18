@@ -74,7 +74,8 @@ public class MethodUtil {
     }
 
     //类型转换
-    public static <T> T cast(Object value ,Class<T> type){
+    @SuppressWarnings("unchecked")
+	public static <T> T cast(Object value ,Class<T> type){
 
         if (value != null && !type.isAssignableFrom(value.getClass())) {
 
