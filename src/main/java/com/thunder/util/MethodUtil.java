@@ -1,10 +1,6 @@
 package com.thunder.util;
 
 
-
-import sun.plugin.javascript.ReflectUtil;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
