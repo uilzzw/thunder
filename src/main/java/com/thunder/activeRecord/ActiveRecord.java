@@ -1,4 +1,4 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
 import com.thunder.util.Util;
 import org.sql2o.Connection;

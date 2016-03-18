@@ -1,4 +1,4 @@
-package com.thunder.ActiveRecord;
+package com.thunder.activeRecord;
 
 import com.thunder.util.ObjectUtil;
 import com.thunder.util.Util;
