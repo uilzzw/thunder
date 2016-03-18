@@ -77,7 +77,8 @@ public class ThunderDispatcher extends HttpServlet {
     public void service(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse){
 
             //请求的uri
-            String uri =httpServletRequest.getRequestURI();
+            String uri =httpServletRequest.getServletPath();
+
 
             Resource resource = resourceMatcher.findResource(PathUtil.getResource(uri));
 
