@@ -16,6 +16,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -95,7 +96,13 @@ public class ThunderDispatcher extends HttpServlet {
                     // 实际执行方法
                  handle(httpServletRequest, httpServletResponse, route);
 
-             }
+             }else{
+                try {
+                    httpServletResponse.sendError(404);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
     }
 
 
