@@ -140,6 +140,9 @@ public class PathUtil {
                 }else if(params[2].equals("create")){
 
                     return "/"+resouce + "/create";
+                }else if(params[2].equals("new")){
+
+                    return "/"+resouce + "/new";
                 }
 
             case 4:
@@ -173,7 +176,10 @@ public class PathUtil {
 
                     return "create";
 
-                    }
+                    }else if(params[2].equals("new")){
+                    return "fresh";
+
+                }
 
             case 4:
 
@@ -193,8 +199,6 @@ public class PathUtil {
         }
 
     }
-
-
 
 
 

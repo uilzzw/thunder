@@ -57,17 +57,10 @@ public  class Request {
         }
 
         for(String key:map.keySet()){
-
-            String clazzName = key.split("[.]")[0];
-
-            String  variable = key.split("[.]")[1];
-
-            if (clazzName.equals(Util.getclassName(c))){
-                try {
+            String  variable = key;
+            try {
                     filed = c.getDeclaredField(variable);
-
                     filed.setAccessible(true);
-
                     filed.set(object,map.get(key)[0]);
                 } catch (NoSuchFieldException e) {
                    continue;
@@ -75,7 +68,6 @@ public  class Request {
                     continue;
                 }
 
-            }
 
         }
 
@@ -83,6 +75,12 @@ public  class Request {
         return object;
 
     }
+
+    public void sendParams(String name ,Object o){
+        servletRequest.setAttribute(name,o);
+    }
+
+
 
 
 

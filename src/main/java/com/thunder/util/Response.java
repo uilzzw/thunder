@@ -5,6 +5,7 @@ import com.thunder.render.JspRender;
 import com.thunder.render.Render;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by icepoint1999 on 2/29/16.
@@ -33,6 +34,15 @@ public class Response {
 
        render.render(name,null);
 
+    }
+
+    public void redirect_to(String path){
+
+        try {
+            httpServletResponse.sendRedirect(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
