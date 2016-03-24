@@ -97,13 +97,13 @@
   ```
     #增加路由（注解方式）
     
-    ```
+    ```java
     @Controller
-    public class test {
-
+  public class test {
+  
     @Inject
     Util util;
-
+    
     @Action(value = "/demo",method = "GET")
     public void demo(Request request, Response response){
         System.out.print("hello world");
