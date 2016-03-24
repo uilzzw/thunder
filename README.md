@@ -1,14 +1,12 @@
 # thunder
-
-＃顾名思义 追求一个如闪电般开发速度的java mvc 框架
-
-
-  最新更新:
+  ##最新更新:
   * [x]添加了实体参数接收对象
   * [x]添加了restful风格的资源路径
   * [x]优化了一些细节。
   * [x]增加了activerecord基础
   * [x]优化了activerecord
+  * [x]添加了 ioc 控制翻转
+  * [x]添加了 路由注解
 
   ## 表单参数对象获取
 
@@ -86,17 +84,32 @@
         thunder.addResource("welcome",new Welcome());
         //增加单独一条路由 执行welcome 类下index方法
         thunder.addRoute("/asd", Var.GET,"index",new Welcome());
-        
         //增加一条过滤器路由
         thunder.before("/asd",Var.GET,(request,response)->{
            System.out.print("asdasd");
         });
-
-
+        <!--配置注解扫描包-->
+        <!--空即代表项目路径下所有包都被扫描-->
+        thunder.setAppBasePackage("")
     }
 }
   
   ```
+    #增加路由（注解方式）
+    
+    ```
+    @Controller
+    public class test {
+
+    @Inject
+    Util util;
+
+    @Action(value = "/demo",method = "GET")
+    public void demo(Request request, Response response){
+        System.out.print("hello world");
+    }
+}
+    ```
   当前默认页面模板存放在web-inf 后续会完善配置功能,暂定约束>配置
   当前默认id 为int类型 即支持关系型数据库
   当前过滤器为路由型过滤器.你也可以自行配置单独路由。
