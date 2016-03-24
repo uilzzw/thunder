@@ -1,8 +1,10 @@
 package com.thunder.util;
 
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -12,7 +14,8 @@ public  class Request {
 
         private HttpServletRequest servletRequest;
 
-    public HttpServletRequest getServletRequest() {
+
+    public  HttpServletRequest getServletRequest() {
         return servletRequest;
     }
 
@@ -61,6 +64,7 @@ public  class Request {
             try {
                     filed = c.getDeclaredField(variable);
                     filed.setAccessible(true);
+                    Type type = filed.getType();
                     filed.set(object,map.get(key)[0]);
                 } catch (NoSuchFieldException e) {
                    continue;
@@ -81,6 +85,22 @@ public  class Request {
     }
 
 
+    public Object getSession(String name){
+
+        return servletRequest.getSession().getAttribute(name);
+
+    }
+    public void setSession(String name,Object o){
+
+      servletRequest.getSession().setAttribute(name,o);
+
+    }
+
+    public String getUri(){
+
+        return servletRequest.getRequestURI();
+
+    }
 
 
 

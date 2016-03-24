@@ -3,6 +3,7 @@ package com.thunder.web;
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
 import com.thunder.core.Var;
+import com.thunder.helper.HelpLoader;
 import com.thunder.resources.Resource;
 import com.thunder.resources.ResourceMatcher;
 import com.thunder.resources.Resources;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -47,7 +49,6 @@ public class ThunderDispatcher extends HttpServlet {
 
     public void init(ServletConfig servletConfig){
 
-
             Thunder zeus  = Thunder.zeus();
             if(!zeus.isInit){
 
@@ -61,8 +62,6 @@ public class ThunderDispatcher extends HttpServlet {
                     routeMatcher.setRouteList(routes.getRoutelist());
                 }
 
-
-
                 if(null != resources){
 
                     resourceMatcher.setResourceList(resources.getResourcesList());
@@ -72,12 +71,20 @@ public class ThunderDispatcher extends HttpServlet {
                 servletContext = servletConfig.getServletContext();
                 zeus.setIsInit(true);
             }
+        HelpLoader.init();
 
     }
 
     public void service(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse){
 
-            //请求的uri
+        try {
+            httpServletRequest.setCharacterEncoding("UTF-8");
+            httpServletResponse.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        //请求的uri
             String uri =httpServletRequest.getServletPath();
 
 

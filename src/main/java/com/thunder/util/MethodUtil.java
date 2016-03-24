@@ -1,6 +1,8 @@
 package com.thunder.util;
 
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -136,7 +138,17 @@ public class MethodUtil {
         return e;
     }
 
-
-
+    /**
+     * 设置成员变量的值
+     */
+    public static void setField(Object object, Field field, Object value){
+        field.setAccessible(true);
+        try {
+            field.set(object,value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw  new RuntimeException(e);
+        }
+    }
 
 }

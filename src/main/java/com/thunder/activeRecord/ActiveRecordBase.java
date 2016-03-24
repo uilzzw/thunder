@@ -135,16 +135,18 @@ public  abstract class ActiveRecordBase {
         int i=0;
         for(String key : map.keySet()){
            if(null != map.get(key)&&key!="id"){
-               params += key + "=" + map.get(key);
+               params += key + "=" + "'"+map.get(key)+"'";
            }
             i++;
-            if(i < map.size()-1 &&key!="id"){
+            if(null!= map.get(key)&&i < map.size()&&key!="id"){
 
                 params += ",";
             }
         }
-        sql += params + " where id = " + map.get("id");
-        System.out.print(sql);
+        sql += params + " where id = " + "'" +map.get("id")+"'";
+        System.out.println(sql);
+        DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
+
     }
 
 //    public static activeRecord updateBy(Object o){
@@ -154,6 +156,21 @@ public  abstract class ActiveRecordBase {
 //        customSql.setUpdate(o);
 //        ac.setCustomSql(customSql);
 //        return ac;
+//
+//    }
+
+    public  static void delete(int id ,Class<?> c){
+         String name = Util.getclassName(c).toLowerCase();
+         DB.sql2o.beginTransaction().createQuery("delete from "+ name + " where id = '" + id+"'").executeUpdate().commit();
+
+    }
+//
+//    public  static void main(String args[]){
+//
+//        DB.open("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1/market", "root", "root");
+//        String name = "vip";
+//        DB.sql2o.beginTransaction().createQuery("insert into vip(id,name,phone,created_at,location,cid) values ('0','好','180391223','Tue Mar 22 15:57:02 CST 2016','非常','3020121023023023')").executeUpdate().commit();
+//
 //
 //    }
 

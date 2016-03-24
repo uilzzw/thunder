@@ -38,6 +38,16 @@ public final class Thunder {
     private Render render;
 
 
+    private String appBasePackage;
+
+    public String getAppBasePackage() {
+        return appBasePackage;
+    }
+
+    public void setAppBasePackage(String appBasePackage) {
+        this.appBasePackage = appBasePackage;
+    }
+
     public boolean isInit = false;
 
     public void init(){

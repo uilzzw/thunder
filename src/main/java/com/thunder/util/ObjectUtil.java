@@ -31,6 +31,19 @@ public class ObjectUtil {
         return map;
     }
 
-
+    /**
+     *  创建实例
+     */
+    public static Object newInstance(Class<?> c){
+        Object object;
+        try {
+            object = c.newInstance();
+        } catch (InstantiationException e) {
+            throw  new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw  new RuntimeException(e);
+        }
+        return  object;
+    }
 
 }
