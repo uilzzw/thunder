@@ -4,6 +4,7 @@ import com.thunder.Annotation.Controller;
 import com.thunder.Annotation.Service;
 import com.thunder.util.ClassUtil;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,6 +46,17 @@ public final class ClassHelper {
         }
         return classSet;
     }
+    //获取所有带注解
+    public static Set<Class<?>> getAspectClassSetByAnnotation(Class<? extends Annotation> c) {
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        for (Class<?> cls : CLASS_SET) {
+            if (cls.isAnnotationPresent(c)) {
+                classSet.add(cls);
+            }
+        }
+        return classSet;
+    }
+
     //获取所有的bean
     public static Set<Class<?>> getBeanClassSet() {
         Set<Class<?>> beanclassSet = new HashSet<Class<?>>();
@@ -52,5 +64,17 @@ public final class ClassHelper {
         beanclassSet.addAll(getControllerClassSet());
         return beanclassSet;
     }
+    //获取所有的子类
+    public static Set<Class<?>> getBeanClassSetBySuper(Class<?> superClass) {
+        Set<Class<?>> beanclassSet = new HashSet<Class<?>>();
+        for (Class<?> c : CLASS_SET){
+            if (superClass.isAssignableFrom(c)&&!superClass.equals(c)){
+                beanclassSet.add(c);
+            }
+        }
+        return beanclassSet;
+    }
+
+
 
 }

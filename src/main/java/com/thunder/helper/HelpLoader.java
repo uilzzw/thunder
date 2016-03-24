@@ -13,6 +13,7 @@ public class HelpLoader {
                 ClassHelper.class,
                 BeanHelper.class,
                 IocHelper.class,
+                Aophelper.class,
                 ControllerHelper.class};
         for (Class<?> cls:classs){
             ClassUtil.loadClass(cls.getName(),true);
