@@ -98,7 +98,7 @@
     #增加路由（注解方式）
     
     ```java
-    @Controller
+  @Controller
   public class test {
   
     @Inject
