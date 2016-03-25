@@ -41,7 +41,7 @@ public final class Thunder {
     private String appBasePackage;
 
     public String getAppBasePackage() {
-        return appBasePackage;
+        return null==appBasePackage? "" :appBasePackage;
     }
 
     public void setAppBasePackage(String appBasePackage) {
