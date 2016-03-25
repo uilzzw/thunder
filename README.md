@@ -160,7 +160,9 @@ public void create(Request request ,Response response){
 request.sendParams("key",value);
 //获取资源id
 request.resourceId();
-
+//获取参数
+request.params("key");
+request.paramsAsInt("key")
 
 ```
 
