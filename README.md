@@ -1,5 +1,5 @@
 # thunder
-  ## thunder已有功能:
+  thunder已有功能:
   * [x]添加了实体参数接收对象
   * [x]添加了restful风格的资源路径
   * [x]优化了一些细节。
@@ -8,7 +8,7 @@
   * [x]添加了 ioc 控制翻转
   * [x]添加了 路由注解
   
-  ## thunder 最新更新:
+  thunder 最新更新:
   * 添加了类似于aspectj 的aop 功能
   * 优化了aop功能
 
@@ -100,7 +100,7 @@
 }
   
   ```
-    #增加路由（注解方式）
+    增加路由（注解方式）
     
     ```java
   @Controller
