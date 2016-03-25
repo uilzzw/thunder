@@ -2,9 +2,11 @@ package com.thunder.helper;
 
 import com.thunder.Annotation.Controller;
 import com.thunder.Annotation.Service;
+import com.thunder.aop.AopTarget;
 import com.thunder.util.ClassUtil;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,11 +49,25 @@ public final class ClassHelper {
         return classSet;
     }
     //获取所有带注解
-    public static Set<Class<?>> getAspectClassSetByAnnotation(Class<? extends Annotation> c) {
-        Set<Class<?>> classSet = new HashSet<Class<?>>();
+    public static Set<AopTarget> getAspectClassSetByAnnotation(Class<? extends Annotation> c) {
+        Set<AopTarget> classSet = new HashSet<AopTarget>();
+
         for (Class<?> cls : CLASS_SET) {
+
             if (cls.isAnnotationPresent(c)) {
-                classSet.add(cls);
+                AopTarget aopTarget = new AopTarget();
+                aopTarget.setAnnotation(c);
+                aopTarget.setCls(cls);
+                classSet.add(aopTarget);
+            }
+            Method[] methods = cls.getMethods();
+            for (Method method : methods){
+                AopTarget aopTarget = new AopTarget();
+                if (method.isAnnotationPresent(c)){
+                    aopTarget.setAnnotation(c);
+                    aopTarget.setCls(cls);
+                    classSet.add(aopTarget);
+                }
             }
         }
         return classSet;

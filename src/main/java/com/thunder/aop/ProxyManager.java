@@ -1,9 +1,12 @@
 package com.thunder.aop;
 
+import com.thunder.util.MethodUtil;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -13,12 +16,19 @@ import java.util.List;
 public class ProxyManager {
 
 
-    public  static <T> T createProxy(final Class<?> targetClass , final List<Proxy> proxyList){
+    public  static <T> T createProxy(final AopTarget aopTarget , final List<Proxy> proxyList){
 
-        return (T) Enhancer.create(targetClass, new MethodInterceptor() {
+        return (T) Enhancer.create(aopTarget.getCls(), new MethodInterceptor() {
             @Override
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-                return new ProxyChain(targetClass,o,method,methodProxy,objects,proxyList).doProxyChain();
+
+                if (method.getAnnotationsByType(aopTarget.getAnnotation()).length==0 && aopTarget.getCls().getAnnotationsByType(aopTarget.getAnnotation()).length==0){
+
+                    MethodUtil.invokeMethod(aopTarget.getCls().newInstance(),method,objects);
+                    return null;
+                }
+
+                return new ProxyChain(aopTarget.getCls(),o,method,methodProxy,objects,proxyList).doProxyChain();
             }
         });
 

@@ -1,6 +1,7 @@
 package com.thunder.helper;
 
 import com.thunder.Annotation.Aspect;
+import com.thunder.aop.AopTarget;
 import com.thunder.aop.AspectProxy;
 import com.thunder.aop.Proxy;
 import com.thunder.aop.ProxyManager;
@@ -17,13 +18,13 @@ public final class Aophelper {
     static{
 
         try {
-            Map<Class<?>,Set<Class<?>>> proxMap =  createProxyMap();
-            Map<Class<?>,List<Proxy>> targetMap = createTargetMap(proxMap);
-            for (Map.Entry<Class<?>,List<Proxy>> targetEntry : targetMap.entrySet()){
-                Class<?> targetClass = targetEntry.getKey();
+            Map<Class<?>,Set<AopTarget>> proxMap =  createProxyMap();
+            Map<AopTarget,List<Proxy>> targetMap = createTargetMap(proxMap);
+            for (Map.Entry<AopTarget,List<Proxy>> targetEntry : targetMap.entrySet()){
+                AopTarget aopTarget = targetEntry.getKey();
                 List<Proxy> proxyList = targetEntry.getValue();
-                Object proxy = ProxyManager.createProxy(targetClass,proxyList);
-                BeanHelper.setBean(targetClass,proxy);
+                Object proxy = ProxyManager.createProxy(aopTarget,proxyList);
+                BeanHelper.setBean(aopTarget.getCls(),proxy);
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -37,17 +38,17 @@ public final class Aophelper {
      * 代理类 目标类 映射关系
      * @return
      */
-    private static Map<Class<?>,Set<Class<?>>> createProxyMap(){
-            Map<Class<?>,Set<Class<?>>> proxyMap = new HashMap<Class<?>,Set<Class<?>>>();
+    private static Map<Class<?>,Set<AopTarget>> createProxyMap(){
+        Map<Class<?>,Set<AopTarget>> proxyMap = new HashMap<Class<?>,Set<AopTarget>>();
         Set<Class<?>> proxyClassSet = ClassHelper.getBeanClassSetBySuper(AspectProxy.class);
-         for (Class<?> proxyClass : proxyClassSet){
-             if (proxyClass.isAnnotationPresent(Aspect.class)){
-                 Aspect aspect = proxyClass.getAnnotation(Aspect.class);
-                 Set<Class<?>> targetClassSet = createTargetClassSet(aspect);
-                 proxyMap.put(proxyClass,targetClassSet);
-             }
+        for (Class<?> proxyClass : proxyClassSet){
+            if (proxyClass.isAnnotationPresent(Aspect.class)){
+                Aspect aspect = proxyClass.getAnnotation(Aspect.class);
+                Set<AopTarget> targetClassSet = createTargetClassSet(aspect);
+                proxyMap.put(proxyClass,targetClassSet);
+            }
 
-         }
+        }
         return proxyMap;
     }
 
@@ -56,9 +57,9 @@ public final class Aophelper {
      * @param aspect
      * @return
      */
-    private static Set<Class<?>> createTargetClassSet(Aspect aspect){
+    private static Set<AopTarget> createTargetClassSet(Aspect aspect){
 
-        Set<Class<?>> targetClassSet = new HashSet<Class<?>>();
+        Set<AopTarget> targetClassSet = new HashSet<AopTarget>();
         Class<? extends Annotation> annation = aspect.value();
         if (null != annation && !annation.equals(Aspect.class)){
             targetClassSet.addAll(ClassHelper.getAspectClassSetByAnnotation(annation));
@@ -73,23 +74,23 @@ public final class Aophelper {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    private static Map<Class<?>,List<Proxy>> createTargetMap(Map<Class<?>,Set<Class<?>>> proxMap) throws IllegalAccessException, InstantiationException {
+    private static Map<AopTarget,List<Proxy>> createTargetMap(Map<Class<?>,Set<AopTarget>> proxMap) throws IllegalAccessException, InstantiationException {
 
-        Map<Class<?>,List<Proxy>> targetMap =  new HashMap<Class<?>,List<Proxy>>();
-        for (Map.Entry<Class<?>,Set<Class<?>>> proxEntry : proxMap.entrySet()){
+        Map<AopTarget,List<Proxy>> targetMap =  new HashMap<AopTarget,List<Proxy>>();
+        for (Map.Entry<Class<?>,Set<AopTarget>> proxEntry : proxMap.entrySet()){
             Class<?> proxyClass  = proxEntry.getKey();
-            Set<Class<?>> targetClassSet  = proxEntry.getValue();
+            Set<AopTarget> targetClassSet  = proxEntry.getValue();
 
-            for (Class<?> c : targetClassSet){
+            for (AopTarget aopTarget : targetClassSet){
                 Proxy proxy = (Proxy) proxyClass.newInstance();
-                  if (targetMap.containsKey(c)){
-                      targetMap.get(c).add(proxy);
-                  }else{
+                if (targetMap.containsKey(aopTarget)){
+                    targetMap.get(aopTarget).add(proxy);
+                }else{
 
-                      List<Proxy> proxyList  = new ArrayList<Proxy>();
-                      proxyList.add(proxy);
-                      targetMap.put(c,proxyList);
-                  }
+                    List<Proxy> proxyList  = new ArrayList<Proxy>();
+                    proxyList.add(proxy);
+                    targetMap.put(aopTarget,proxyList);
+                }
             }
         }
 
