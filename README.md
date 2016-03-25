@@ -78,7 +78,11 @@
   public class App implements Lightning{
 
     public void init(Thunder thunder) {
-      //这里会增加restful 7条路由
+     <!--配置注解扫描包）-->
+        <!--空即代表项目路径下所有包都被扫描-->
+        thunder.setAppBasePackage("")
+        
+        //这里会增加restful 7条路由
         //get -> /welcome  method:index
         //get -> /welcome/new  method:fresh
         //post -> /welcome/create  method:create
@@ -88,14 +92,12 @@
         //get -> /welcome/:id   method:show
         thunder.addResource("welcome",new Welcome());
         //增加单独一条路由 执行welcome 类下index方法
-        thunder.addRoute("/asd", Var.GET,"index",new Welcome());
+        thunder.addRoute("/demo", Var.GET,"index",new Welcome());
         //增加一条过滤器路由
-        thunder.before("/asd",Var.GET,(request,response)->{
-           System.out.print("asdasd");
+        thunder.before("/demo",Var.GET,(request,response)->{
+           System.out.print("我拦截demo啦！");
         });
-        <!--配置注解扫描包-->
-        <!--空即代表项目路径下所有包都被扫描-->
-        thunder.setAppBasePackage("")
+       
     }
 }
   
