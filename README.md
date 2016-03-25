@@ -9,8 +9,8 @@
   * [x]添加了 路由注解
   
   thunder 最新更新:
-  * 添加了类似于aspectj 的aop 功能
-  * 优化了aop功能
+  *[x] 添加了类似于aspectj 的aop 功能
+  *[x] 优化了aop功能
 
 
   ## 表单参数对象获取
@@ -106,16 +106,80 @@
   @Controller
   public class test {
   
+    //IOC 依赖注入
     @Inject
     Util util;
     
     @Action(value = "/demo",method = "GET")
+    //Aop 拦截此方法
+    @Check
     public void demo(Request request, Response response){
         System.out.print("hello world");
     }
 }
     ```
-  当前默认页面模板存放在web-inf 后续会完善配置功能,暂定约束>配置
+    拦截注解类
+    ```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Check {
+}
+
+    ```
+    拦截切面类
+    ```java
+ /**
+ * Created by icepoint1999 on 3/24/16.
+ */
+
+/**要代理的注解类 或注解方法
+ * 
+ */
+@Aspect(value = Check.class)
+public class Aoptest extends AspectProxy {
+
+    /**
+     * 重写父类代理方法 对应前置增强 后置增强 环绕增强
+     * @param c 对应的代理类
+     * @param method 代理执行方法
+     * @param params 参数
+     * @throws Throwable
+     */
+    public void before(Class<?> c , Method method, Object[] params)throws Throwable{
+
+        System.out.print("in proxy");
+
+    }
+
+    /**
+     * 环绕增强 如果返回true 则进行前后增强  false则只执行被切入方法
+     * @param c
+     * @param method
+     * @param params
+     * @return
+     * @throws Throwable
+     */
+    public boolean intercept(Class<?> c ,Method method,Object[] params)throws Throwable{
+        //返回
+        return true;
+    }
+
+    /**
+     * 
+     * @param c
+     * @param method
+     * @param params
+     * @param o 代理对象
+     * @throws Throwable
+     */
+    public void after(Class<?> c ,Method method,Object[] params , Object o)throws Throwable{
+
+
+    }
+}
+
+    ```
+  当前默认页面模板存放在web-inf 后续会完善配置功能,暂定 约束>配置
   当前默认id 为int类型 即支持关系型数据库
   当前过滤器为路由型过滤器.你也可以自行配置单独路由。
   
