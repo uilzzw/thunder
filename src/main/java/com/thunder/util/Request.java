@@ -45,7 +45,7 @@ public  class Request {
 
     }
 
-    public  Object getModel(Class<?> c){
+    public  <T> T getModel(Class<?> c){
 
         @SuppressWarnings("unchecked")
 		Map<String,String[]>  map =  servletRequest.getParameterMap();
@@ -76,7 +76,7 @@ public  class Request {
         }
 
 
-        return object;
+        return (T) object;
 
     }
 
