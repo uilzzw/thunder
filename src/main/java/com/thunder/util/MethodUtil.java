@@ -1,7 +1,9 @@
 package com.thunder.util;
 
 
-import java.io.File;
+import com.thunder.wrapper.Request;
+import com.thunder.wrapper.Response;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -12,7 +14,7 @@ import java.util.Arrays;
 public class MethodUtil {
 
     // 执行方法
-    public static Object doMethod(Object object ,Method method ,Request request,Response response ){
+    public static Object doMethod(Object object , Method method , Request request, Response response ){
         int length = method.getParameterTypes().length;
         method.setAccessible(true);
         if( length > 0 ){

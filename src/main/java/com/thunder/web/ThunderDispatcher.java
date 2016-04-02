@@ -2,7 +2,6 @@ package com.thunder.web;
 
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
-import com.thunder.core.Var;
 import com.thunder.helper.HelpLoader;
 import com.thunder.resources.Resource;
 import com.thunder.resources.ResourceMatcher;
@@ -11,6 +10,8 @@ import com.thunder.route.Route;
 import com.thunder.route.RouteMatcher;
 import com.thunder.route.Routes;
 import com.thunder.util.*;
+import com.thunder.wrapper.Request;
+import com.thunder.wrapper.Response;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**

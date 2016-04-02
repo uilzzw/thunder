@@ -1,12 +1,9 @@
 package com.thunder.web;
 
-import com.thunder.core.Thunder;
-import com.thunder.util.Request;
-import com.thunder.util.Response;
-import jdk.nashorn.internal.ir.RuntimeNode;
+import com.thunder.wrapper.Request;
+import com.thunder.wrapper.Response;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by icepoint1999 on 2/29/16.

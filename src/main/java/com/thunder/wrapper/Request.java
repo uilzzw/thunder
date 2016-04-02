@@ -1,4 +1,4 @@
-package com.thunder.util;
+package com.thunder.wrapper;
 
 
 import javax.servlet.http.HttpServletRequest;

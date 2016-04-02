@@ -1,7 +1,7 @@
 package com.thunder.route;
 
-import com.thunder.util.Request;
-import com.thunder.util.Response;
+import com.thunder.wrapper.Request;
+import com.thunder.wrapper.Response;
 
 /**
  * Created by icepoint1999 on 3/17/16.

@@ -8,8 +8,8 @@ import com.thunder.route.RouteHandler;
 import com.thunder.route.RouteMatcher;
 import com.thunder.route.Routes;
 import com.thunder.util.ConfigLoader;
-import com.thunder.util.Request;
-import com.thunder.util.Response;
+import com.thunder.wrapper.Request;
+import com.thunder.wrapper.Response;
 
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
