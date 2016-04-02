@@ -26,6 +26,7 @@ public final class IocHelper {
                             field.setAccessible(true);
                             Class<?> beanFieldClass = field.getType();
                             Object beanFieldInstance = beanMap.get(beanFieldClass);
+                            System.out.println(beanFieldInstance);
                             if (null != beanFieldInstance){
                                 MethodUtil.setField(beanInstance,field,beanFieldInstance);
                                 try {

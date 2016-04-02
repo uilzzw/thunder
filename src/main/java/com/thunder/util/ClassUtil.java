@@ -26,10 +26,12 @@ public class ClassUtil {
         Class<?> c;
 
         try {
+
             c = Class.forName(className,isInit,getClassLoader());
 
         } catch (ClassNotFoundException e) {
-            throw  new RuntimeException(e);
+            System.out.println("load " + className +"失败");
+            throw  new  RuntimeException(e);
         }
         return c;
     }

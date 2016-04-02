@@ -1,5 +1,6 @@
 package com.thunder.helper;
 
+import com.thunder.Annotation.Component;
 import com.thunder.Annotation.Controller;
 import com.thunder.Annotation.Service;
 import com.thunder.aop.AopTarget;
@@ -32,6 +33,16 @@ public final class ClassHelper {
         Set<Class<?>> classSet = new HashSet<Class<?>>();
         for (Class<?> cls : CLASS_SET) {
             if (cls.isAnnotationPresent(Service.class)) {
+                classSet.add(cls);
+            }
+        }
+        return classSet;
+    }
+    //获取所有component类
+    public static Set<Class<?>> getComponentClassSet() {
+        Set<Class<?>> classSet = new HashSet<Class<?>>();
+        for (Class<?> cls : CLASS_SET) {
+            if (cls.isAnnotationPresent(Component.class)) {
                 classSet.add(cls);
             }
         }
@@ -78,6 +89,7 @@ public final class ClassHelper {
         Set<Class<?>> beanclassSet = new HashSet<Class<?>>();
         beanclassSet.addAll(getServiceClassSet());
         beanclassSet.addAll(getControllerClassSet());
+        beanclassSet.addAll(getComponentClassSet());
         return beanclassSet;
     }
     //获取所有的子类

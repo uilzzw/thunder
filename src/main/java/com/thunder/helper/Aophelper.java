@@ -27,9 +27,9 @@ public final class Aophelper {
                 BeanHelper.setBean(aopTarget.getCls(),proxy);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            System.out.print("加载aop失败");
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            System.out.print("加载aop失败");
         }
 
     }
@@ -64,6 +64,7 @@ public final class Aophelper {
         if (null != annation && !annation.equals(Aspect.class)){
             targetClassSet.addAll(ClassHelper.getAspectClassSetByAnnotation(annation));
         }
+        System.out.println(targetClassSet);
         return targetClassSet;
     }
 

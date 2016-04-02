@@ -2,6 +2,7 @@ package com.thunder.web;
 
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
+import com.thunder.helper.BeanHelper;
 import com.thunder.helper.HelpLoader;
 import com.thunder.resources.Resource;
 import com.thunder.resources.ResourceMatcher;
@@ -12,6 +13,7 @@ import com.thunder.route.Routes;
 import com.thunder.util.*;
 import com.thunder.wrapper.Request;
 import com.thunder.wrapper.Response;
+import test.Contr;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -122,7 +124,7 @@ public class ThunderDispatcher extends HttpServlet {
         // 初始化上下文
         ThunderContext.initContext(servletContext, request, response);
 
-        Object controller = route.getController();
+        Object controller = route.getController() ;
         // 要执行的路由方法
         Method actionMethod = route.getAction();
         // 执行route方法

@@ -30,7 +30,8 @@ public final class BeanHelper {
      */
     public static <T> T getBean(Class<T> tClass){
         if (!BEAN_MAP.containsKey(tClass)){
-            throw  new RuntimeException("can not get bean by class" + tClass);
+//            throw  new RuntimeException("can not get bean by " + tClass);
+            return null;
         }
 
         return (T) BEAN_MAP.get(tClass);

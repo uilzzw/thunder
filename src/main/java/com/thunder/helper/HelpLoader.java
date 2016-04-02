@@ -16,6 +16,7 @@ public class HelpLoader {
                 Aophelper.class,
                 ControllerHelper.class};
         for (Class<?> cls:classs){
+            System.out.println("load class" + cls);
             ClassUtil.loadClass(cls.getName(),true);
         }
 

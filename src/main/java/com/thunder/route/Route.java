@@ -1,5 +1,7 @@
 package com.thunder.route;
 
+import com.thunder.helper.BeanHelper;
+
 import java.lang.reflect.Method;
 
 /**
@@ -45,7 +47,9 @@ public class Route {
         this.path = path;
     }
 
+
     public Object getController() {
+        controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
         return controller;
     }
 
@@ -70,6 +74,7 @@ public class Route {
     }
 
     public Route(String path, Object controller, Method action, String method) {
+        controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
         this.path = path;
         this.controller = controller;
         this.action = action;

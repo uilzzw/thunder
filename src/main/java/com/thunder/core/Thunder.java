@@ -1,5 +1,6 @@
 package com.thunder.core;
 
+import com.thunder.helper.BeanHelper;
 import com.thunder.render.JspRender;
 import com.thunder.render.Render;
 import com.thunder.resources.Resources;
@@ -100,7 +101,7 @@ public final class Thunder {
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -114,7 +115,7 @@ public final class Thunder {
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.GET, method,controller);
 
         }
@@ -130,7 +131,7 @@ public final class Thunder {
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
 
@@ -143,7 +144,7 @@ public final class Thunder {
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -157,7 +158,7 @@ public final class Thunder {
 
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,Var.GET, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -171,7 +172,7 @@ public final class Thunder {
 
         try {
             Method methodAction =controller.getClass().getMethod(action, Request.class , Response.class);
-
+            controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
             this.routes.addRoute(path,  method, methodAction ,controller);
 
           }
