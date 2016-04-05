@@ -1,9 +1,11 @@
 package com.thunder.aop;
 
+import com.thunder.helper.BeanHelper;
 import com.thunder.util.MethodUtil;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import net.sf.ehcache.hibernate.management.impl.BeanUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Target;
@@ -23,8 +25,7 @@ public class ProxyManager {
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
 
                 if (method.getAnnotationsByType(aopTarget.getAnnotation()).length==0 && aopTarget.getCls().getAnnotationsByType(aopTarget.getAnnotation()).length==0){
-
-                    MethodUtil.invokeMethod(aopTarget.getCls().newInstance(),method,objects);
+                    MethodUtil.invokeMethod(BeanHelper.getBean(aopTarget.getClass()),method,objects);
                     return null;
                 }
 

@@ -26,11 +26,10 @@ public final class IocHelper {
                             field.setAccessible(true);
                             Class<?> beanFieldClass = field.getType();
                             Object beanFieldInstance = beanMap.get(beanFieldClass);
-                            System.out.println(beanFieldInstance);
                             if (null != beanFieldInstance){
                                 MethodUtil.setField(beanInstance,field,beanFieldInstance);
                                 try {
-                                    System.out.print(field.get(beanInstance));
+                                    System.out.println("IOC注入"+field.get(beanInstance));
                                 } catch (IllegalAccessException e) {
                                     e.printStackTrace();
                                 }

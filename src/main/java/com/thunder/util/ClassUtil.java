@@ -24,9 +24,7 @@ public class ClassUtil {
 
     public  static  Class<?> loadClass(String className,boolean isInit){
         Class<?> c;
-
         try {
-
             c = Class.forName(className,isInit,getClassLoader());
 
         } catch (ClassNotFoundException e) {

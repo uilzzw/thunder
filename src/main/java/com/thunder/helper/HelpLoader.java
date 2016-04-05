@@ -12,9 +12,9 @@ public class HelpLoader {
         Class<?>[] classs={
                 ClassHelper.class,
                 BeanHelper.class,
-                IocHelper.class,
                 Aophelper.class,
-                ControllerHelper.class};
+                ControllerHelper.class,
+                IocHelper.class};
         for (Class<?> cls:classs){
             System.out.println("load class" + cls);
             ClassUtil.loadClass(cls.getName(),true);

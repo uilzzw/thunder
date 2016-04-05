@@ -6,5 +6,7 @@
 /src/main/.DS_Store
 /src/main/webapp
 /src/main/java/test
-
+/src/main/java/.DS_Store
+src/main/.DS_Store
+src/.DS_Store
 ignorecase = false

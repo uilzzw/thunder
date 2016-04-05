@@ -48,7 +48,7 @@ public  class Request {
     public  <T> T getModel(Class<?> c){
 
         @SuppressWarnings("unchecked")
-		Map<String,String[]>  map =  servletRequest.getParameterMap();
+		Map<String,Object[]>  map =  servletRequest.getParameterMap();
         Field filed =null;
         Object object = null;
         try {
@@ -65,10 +65,18 @@ public  class Request {
                     filed = c.getDeclaredField(variable);
                     filed.setAccessible(true);
                     Type type = filed.getType();
-                    filed.set(object,map.get(key)[0]);
+                    System.out.print(type.getTypeName());
+                    if (type.getTypeName().equals("int")){
+                        filed.set(object, Integer.parseInt(String.valueOf(map.get(key)[0])));
+                    }
+                    else if(type.getTypeName().equals("java.lang.String")){
+                      filed.set(object,map.get(key)[0]);
+                    }
+
                 } catch (NoSuchFieldException e) {
                    continue;
-                } catch (IllegalAccessException e) {
+                }
+                    catch (IllegalAccessException e) {
                     continue;
                 }
 

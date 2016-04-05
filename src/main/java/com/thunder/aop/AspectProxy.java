@@ -9,7 +9,7 @@ public class AspectProxy  implements  Proxy{
     @Override
     public Object doProxy(ProxyChain proxyChain) throws Throwable {
         Object result  = null;
-        Class<?> c = proxyChain.getTargetClass();
+        Class<?> c =  proxyChain.getTargetClass();
         Method  method = proxyChain.getTargerMethod();
         Object[] params = proxyChain.getParams();
         begin();
