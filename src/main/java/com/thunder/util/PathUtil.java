@@ -2,6 +2,7 @@ package com.thunder.util;
 
 import com.thunder.core.Thunder;
 import com.thunder.core.Var;
+import com.thunder.route.Route;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -120,85 +121,115 @@ public class PathUtil {
         return resource;
     }
 
-    public static String matchResourceRoute(String path){
+//    public static String matchResourceRoute(String path){
+//
+//        String resouce =PathUtil.getResource(path);
+//
+//        int length = path.split("/").length;
+//
+//        String [] params = path.split("/");
+//
+//        switch (length){
+//            case 2 :
+//
+//               return path;
+//
+//            case 3 :
+//
+//                if(params[2].matches("[0-9]+")) {
+//                   return "/"+resouce + "/:id";
+//                }else if(params[2].equals("create")){
+//
+//                    return "/"+resouce + "/create";
+//                }else if(params[2].equals("new")){
+//
+//                    return "/"+resouce + "/new";
+//                }
+//
+//            case 4:
+//
+//                if(params[2].matches("[0-9]+")) {
+//                    return "/"+resouce + "/:id/"+params[3];
+//                }
+//
+//            default: return path;
+//        }
+//
+//    }
+//
+//
+//    public static String matchResourceMethod(String path){
+//
+//        String resouce =PathUtil.getResource(path);
+//
+//        int length = path.split("/").length;
+//
+//        String [] params = path.split("/");
+//
+//        switch (length){
+//            case 2 :
+//                return "index";
+//            case 3 :
+//
+//                if(params[2].matches("[0-9]+")) {
+//                    return "show";
+//                }else if(params[2].equals("create")){
+//
+//                    return "create";
+//
+//                    }else if(params[2].equals("new")){
+//                    return "fresh";
+//                }
+//
+//            case 4:
+//
+//                if(params[2].matches("[0-9]+")&&params[3].equals("edit")) {
+//                    return "edit";
+//                }
+//
+//                if(params[2].matches("[0-9]+")&&params[3].equals("delete")) {
+//                    return "delete";
+//                }
+//
+//                if(params[2].matches("[0-9]+")&&params[3].equals("update")) {
+//                    return "update";
+//                }
+//
+//            default: return null;
+//        }
+//
+//    }
 
-        String resouce =PathUtil.getResource(path);
-
-        int length = path.split("/").length;
-
-        String [] params = path.split("/");
-
-        switch (length){
-            case 2 :
-
-               return path;
-
-            case 3 :
-
-                if(params[2].matches("[0-9]+")) {
-                   return "/"+resouce + "/:id";
-                }else if(params[2].equals("create")){
-
-                    return "/"+resouce + "/create";
-                }else if(params[2].equals("new")){
-
-                    return "/"+resouce + "/new";
+    public  static Route  findRestRoute(Route route,String path,String method){
+        boolean flag = true ;
+        String p  = route.getPath();
+        String p_s =p.startsWith("/")==true ? p.substring(1,p.length()) :p;
+        String path_s = path.startsWith("/")==true ? path.substring(1,path.length()) :path;
+        String[] list = path_s.split("/");
+        String[] routelist = p_s.split("/");
+        if (method.equals(route.getMethod())){
+            if (routelist.length == list.length) {
+                for (int i = 0; i < list.length; i++) {
+                    if (list[i].equals(routelist[i]) || routelist[i].startsWith(":")){
+                        continue;
+                    }else{
+                        flag=false;
+                        break;
+                    }
                 }
+                return flag==false ? null : route;
+            }else{
 
-            case 4:
+                return null;
+            }
+        }else{
+            return null;
 
-                if(params[2].matches("[0-9]+")) {
-                    return "/"+resouce + "/:id/"+params[3];
-                }
-
-            default: return null;
         }
+
 
     }
 
-
-    public static String matchResourceMethod(String path){
-
-        String resouce =PathUtil.getResource(path);
-
-        int length = path.split("/").length;
-
-        String [] params = path.split("/");
-
-        switch (length){
-            case 2 :
-                return "index";
-            case 3 :
-
-                if(params[2].matches("[0-9]+")) {
-                    return "show";
-                }else if(params[2].equals("create")){
-
-                    return "create";
-
-                    }else if(params[2].equals("new")){
-                    return "fresh";
-
-                }
-
-            case 4:
-
-                if(params[2].matches("[0-9]+")&&params[3].equals("edit")) {
-                    return "edit";
-                }
-
-                if(params[2].matches("[0-9]+")&&params[3].equals("delete")) {
-                    return "delete";
-                }
-
-                if(params[2].matches("[0-9]+")&&params[3].equals("update")) {
-                    return "update";
-                }
-
-            default: return null;
-        }
-
-    }
 
 
 

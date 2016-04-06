@@ -1,6 +1,10 @@
 package com.thunder.util;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by icepoint1999 on 2/29/16.
@@ -35,6 +39,24 @@ public class Util {
 
 
 
+
     }
+    public static Map<String,String> restMap(String path,String uri){
+        Map<String ,String> map = new HashMap<>();
+        Pattern pattern2 = Pattern.compile("/:(.+?)/");
+        Matcher matcher = pattern2.matcher(path);
+        String[] path_s =(path.substring(1,path.length())).split("/");
+        String[] uri_s = (uri.substring(1,uri.length())).split("/");
+        while (matcher.find()){
+           System.out.print(path.substring(matcher.start()+1,matcher.end()-1));
+            for (int i =0 ;i<path_s.length;i++){
+                if (path_s[i].equals(path.substring(matcher.start()+1,matcher.end()-1))){
+                    map.put(path.substring(matcher.start()+2,matcher.end()-1),uri_s[i]);
+                }
+            }
+        }
+        return map;
+    }
+
 
 }

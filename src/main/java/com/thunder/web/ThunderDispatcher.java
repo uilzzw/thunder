@@ -13,7 +13,7 @@ import com.thunder.route.Routes;
 import com.thunder.util.*;
 import com.thunder.wrapper.Request;
 import com.thunder.wrapper.Response;
-import test.Contr;
+
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -65,9 +65,7 @@ public class ThunderDispatcher extends HttpServlet {
                 }
 
                 if(null != resources){
-
                     resourceMatcher.setResourceList(resources.getResourcesList());
-
                 }
 
                 servletContext = servletConfig.getServletContext();
@@ -78,7 +76,7 @@ public class ThunderDispatcher extends HttpServlet {
     }
 
     public void service(HttpServletRequest httpServletRequest ,HttpServletResponse httpServletResponse){
-
+        thunder = Thunder.zeus();
         try {
             httpServletRequest.setCharacterEncoding("UTF-8");
             httpServletResponse.setCharacterEncoding("UTF-8");
@@ -87,22 +85,18 @@ public class ThunderDispatcher extends HttpServlet {
         }
 
         //请求的uri
-            String uri =httpServletRequest.getServletPath();
-
-
-            Resource resource = resourceMatcher.findResource(PathUtil.getResource(uri));
+             String uri =httpServletRequest.getServletPath();
+             System.out.print(uri);
 
             Route route ;
         //优先判断是否属于资源。
-            if (resource ==null) {
 
-                 route =routeMatcher.findRoute(uri,httpServletRequest.getMethod());
+            route= routeMatcher.findRoute(uri,httpServletRequest.getMethod());
 
-            }else{
-                route= routeMatcher.findRoute(PathUtil.matchResourceRoute(uri),httpServletRequest.getMethod());
-            }
             if (route != null) {
                     // 实际执行方法
+
+                 thunder.setPathVarianble(Util.restMap(route.getPath(),uri));
                  handle(httpServletRequest, httpServletResponse, route);
 
              }else{

@@ -1,6 +1,8 @@
 package com.thunder.wrapper;
 
 
+import com.thunder.core.Thunder;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 
@@ -39,9 +41,9 @@ public  class Request {
 
     }
 
-    public int resourceId(){
-
-        return Integer.parseInt(servletRequest.getRequestURI().split("/")[2]);
+    public String pathVariable(String name){
+        Thunder thunder  = Thunder.zeus();
+        return thunder.getPathVarianble().get(name);
 
     }
 

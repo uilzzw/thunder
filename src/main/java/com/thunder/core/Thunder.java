@@ -13,6 +13,7 @@ import com.thunder.wrapper.Request;
 import com.thunder.wrapper.Response;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -37,6 +38,18 @@ public final class Thunder {
     //加载渲染器
 
     private Render render;
+
+    //资源变量
+
+    public Map<String, String> getPathVarianble() {
+        return pathVarianble;
+    }
+
+    public void setPathVarianble(Map<String, String> pathVarianble) {
+        this.pathVarianble = pathVarianble;
+    }
+
+    private Map<String,String> pathVarianble;
 
 
     private String appBasePackage;

@@ -37,19 +37,29 @@ public class RouteMatcher {
 
         List<Route> matchRoutes =  new ArrayList<Route>();
 
-      for(Route route :this.routeList){
+      for(Route route :this.routeList) {
 
-            if(PathUtil.matchesPath(path,route.getPath())&&method.equals(route.getMethod())){
+          if (PathUtil.matchesPath(path, route.getPath()) && method.equals(route.getMethod())) {
+              matchRoutes.add(route);
+              giveMacth(path,method,matchRoutes);
+              return matchRoutes.size() > 0 ? matchRoutes.get(0) : null;
+          } else{
+             Route route1 = PathUtil.findRestRoute(route,path,method);
+              if (null == route1){
+                  continue;
+              }else{
+                  return  route1;
+              }
 
-                    matchRoutes.add(route);
-            }
+          }
+
       }
-    //优先匹配原则
-      giveMacth(path,method,matchRoutes);
-
-      return matchRoutes.size() > 0 ? matchRoutes.get(0) : null;
+       return null;
 
   }
+    //优先匹配原则
+
+
 
     public Route findRouteTarget(String path,String method,String target){
 

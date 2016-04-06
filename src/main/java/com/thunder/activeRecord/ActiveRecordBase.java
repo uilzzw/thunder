@@ -1,8 +1,10 @@
 package com.thunder.activeRecord;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.thunder.util.ObjectUtil;
 import com.thunder.util.Util;
 import org.sql2o.Connection;
+import org.sql2o.Sql2o;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -83,7 +85,7 @@ public  abstract class ActiveRecordBase {
         return activeRecord;
     }
 
-    public static void  save(Object object){
+    public static Object  save(Object object){
         Connection connection = DB.sql2o.beginTransaction();
         Field[] fields = object.getClass().getDeclaredFields();
         StringBuffer key = new StringBuffer();
@@ -108,6 +110,7 @@ public  abstract class ActiveRecordBase {
         String sql = "insert into "+table + "("+key +") values ("+value +")";
         System.out.println("excute sql ------->"+sql);
         connection.createQuery(sql).executeUpdate().commit();
+        return connection.getKey();
     }
 
     public ActiveRecord all(){
@@ -149,20 +152,22 @@ public  abstract class ActiveRecordBase {
 
     }
 
-//    public static activeRecord updateBy(Object o){
-//        Connection connection = DB.sql2o.beginTransaction();
-//        activeRecord ac = new activeRecord();
-//        CustomSql customSql = new CustomSql();
-//        customSql.setUpdate(o);
-//        ac.setCustomSql(customSql);
-//        return ac;
-//
-//    }
-
     public  static void delete(int id ,Class<?> c){
          String name = Util.getclassName(c).toLowerCase();
          DB.sql2o.beginTransaction().createQuery("delete from "+ name + " where id = '" + id+"'").executeUpdate().commit();
 
+    }
+    public static  void delete_by_sql(String sql){
+        DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
+    }
+
+    public static void update_by_sql(String sql){
+        DB.sql2o.beginTransaction().createQuery(sql).executeUpdate();
+    }
+
+    public static Object insert_by_sql(String sql){
+
+        return DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().getKey();
     }
 //
 //    public  static void main(String args[]){
