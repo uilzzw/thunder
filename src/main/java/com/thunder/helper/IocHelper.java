@@ -29,7 +29,7 @@ public final class IocHelper {
                             if (null != beanFieldInstance){
                                 MethodUtil.setField(beanInstance,field,beanFieldInstance);
                                 try {
-                                    System.out.println("IOC注入"+field.get(beanInstance));
+                                    System.out.println("Thunder:--------->IOC success in "+field.get(beanInstance));
                                 } catch (IllegalAccessException e) {
                                     e.printStackTrace();
                                 }

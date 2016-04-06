@@ -16,7 +16,7 @@ public class HelpLoader {
                 ControllerHelper.class,
                 IocHelper.class};
         for (Class<?> cls:classs){
-            System.out.println("load class" + cls);
+            System.out.println("Thunder:---------> load class " + cls + "success !");
             ClassUtil.loadClass(cls.getName(),true);
         }
 
