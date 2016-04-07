@@ -120,6 +120,11 @@ public  class Request {
 
     }
 
+    /**
+     * 上传文件
+     * @param path
+     * @throws IOException
+     */
     public void saveFile(String path) throws IOException {
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -139,13 +144,11 @@ public  class Request {
         }
         for(Iterator it=items.iterator(); it.hasNext();) {
             FileItem item = (FileItem) it.next();
-            String name ;
-
-                String fileName = item.getName()==null? "" :item.getName();
+            String fileName = item.getName()==null? "" :item.getName();
             if (!fileName.equals("")){
                 //获得文件类型
                 String contentType = item.getContentType();
-                FileOutputStream fos = new FileOutputStream(file.getPath()+"/" + fileName+ System.currentTimeMillis() +
+                FileOutputStream fos = new FileOutputStream(file.getPath()+"/" + System.currentTimeMillis() +
                         fileName.subSequence(fileName.indexOf("."), fileName.length()));
                 if (item.isInMemory()) {
                     fos.write(item.get());
