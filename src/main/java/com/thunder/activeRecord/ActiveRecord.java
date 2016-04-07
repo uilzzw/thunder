@@ -1,6 +1,8 @@
 package com.thunder.activeRecord;
 
+import com.thunder.Constant;
 import com.thunder.util.Util;
+import org.apache.log4j.LogManager;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 
@@ -11,6 +13,8 @@ import java.util.List;
  * Created by icepoint1999 on 3/15/16.
  */
 public final class ActiveRecord {
+
+    private org.apache.log4j.Logger logger = LogManager.getLogger(ActiveRecord.class);
 
     private Connection connection;
     private CustomSql customSql;
@@ -36,15 +40,16 @@ public final class ActiveRecord {
         Query query = null;
         String sql = buildSql(this.customSql);
         sql = sql.replaceAll("#table#", Util.getclassName(type).toLowerCase());
-        System.out.println(sql);
         query = connection.createQuery(sql);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql );
         result = query.executeAndFetch(type);
         this.connection.close();
         return result;
     }
 
     public <T> T one(Class<T> type) {
-        return list(type).get(0);
+
+        return list(type).size()>0 ? list(type).get(0) : null;
     }
 
 

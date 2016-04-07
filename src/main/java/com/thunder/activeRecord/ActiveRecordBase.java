@@ -1,8 +1,11 @@
 package com.thunder.activeRecord;
 
 import com.sun.org.apache.bcel.internal.generic.RETURN;
+import com.thunder.Constant;
 import com.thunder.util.ObjectUtil;
 import com.thunder.util.Util;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -11,10 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by icepoint1999 on 3/14/16.
  */
 public  abstract class ActiveRecordBase {
+
+
 
     public static  <T> T find_by_id(int id ,Class<T> tClass){
         String[] tablename =tClass.getName().toLowerCase().split("[.]");
@@ -86,6 +92,7 @@ public  abstract class ActiveRecordBase {
     }
 
     public static Object  save(Object object){
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
         Connection connection = DB.sql2o.beginTransaction();
         Field[] fields = object.getClass().getDeclaredFields();
         StringBuffer key = new StringBuffer();
@@ -108,7 +115,7 @@ public  abstract class ActiveRecordBase {
              }
          }
         String sql = "insert into "+table + "("+key +") values ("+value +")";
-        System.out.println("excute sql ------->"+sql);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
         connection.createQuery(sql).executeUpdate().commit();
         return connection.getKey();
     }
@@ -123,14 +130,17 @@ public  abstract class ActiveRecordBase {
     }
 
     public  static  <T> List<T> find_all(Class<T> tClass){
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
         Connection connection = DB.sql2o.beginTransaction();
         String table = Util.getclassName(tClass).toLowerCase();
         String sql = "select * from "+table;
+        logger.info(Constant.LOG_AC_NAME+"execute sql " + sql);
         List<T> list = connection.createQuery(sql).executeAndFetch(tClass);
         return list;
     }
 
     public static void update(Object object){
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
         Map<String,Object> map = ObjectUtil.getFiledValue(object);
         String tablename = Util.getclassName(object.getClass()).toLowerCase();
         String sql = "update "+tablename + " set " ;
@@ -147,37 +157,37 @@ public  abstract class ActiveRecordBase {
             }
         }
         sql += params + " where id = " + "'" +map.get("id")+"'";
-        System.out.println(sql);
+        logger.info(Constant.LOG_AC_NAME+"execute sql " + sql);
         DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
 
     }
 
     public  static void delete(int id ,Class<?> c){
          String name = Util.getclassName(c).toLowerCase();
-         DB.sql2o.beginTransaction().createQuery("delete from "+ name + " where id = '" + id+"'").executeUpdate().commit();
+         String sql = "delete from "+ name + " where id = '" + id+"'";
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
+         DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
 
     }
     public static  void delete_by_sql(String sql){
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
         DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().commit();
     }
 
     public static void update_by_sql(String sql){
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
         DB.sql2o.beginTransaction().createQuery(sql).executeUpdate();
     }
 
     public static Object insert_by_sql(String sql){
-
+        Logger logger = LogManager.getLogger(ActiveRecordBase.class);
+        logger.info(Constant.LOG_AC_NAME+" execute sql " + sql);
         return DB.sql2o.beginTransaction().createQuery(sql).executeUpdate().getKey();
     }
-//
-//    public  static void main(String args[]){
-//
-//        DB.open("com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1/market", "root", "root");
-//        String name = "vip";
-//        DB.sql2o.beginTransaction().createQuery("insert into vip(id,name,phone,created_at,location,cid) values ('0','好','180391223','Tue Mar 22 15:57:02 CST 2016','非常','3020121023023023')").executeUpdate().commit();
-//
-//
-//    }
+
 
 
 

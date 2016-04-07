@@ -129,7 +129,7 @@ public final class Thunder {
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
-            this.routes.addRoute(path,Var.GET, method,controller);
+            this.routes.addRoute(path,Var.POST, method,controller);
 
         }
          catch (NoSuchMethodException e) {
@@ -145,7 +145,7 @@ public final class Thunder {
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
-            this.routes.addRoute(path,Var.GET, method,controller);
+            this.routes.addRoute(path,Var.DELETE, method,controller);
         } catch (NoSuchMethodException e) {
 
         }
@@ -158,7 +158,7 @@ public final class Thunder {
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
-            this.routes.addRoute(path,Var.GET, method,controller);
+            this.routes.addRoute(path,Var.PUT, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -172,7 +172,7 @@ public final class Thunder {
         try {
             Method method =controller.getClass().getMethod(methodName, Request.class , Response.class);
             controller = null== BeanHelper.getBean(controller.getClass())? controller : BeanHelper.getBean(controller.getClass());
-            this.routes.addRoute(path,Var.GET, method,controller);
+            this.routes.addRoute(path,Var.PATCH, method,controller);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

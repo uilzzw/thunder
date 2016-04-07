@@ -1,7 +1,10 @@
 package com.thunder.helper;
 
 import com.thunder.Annotation.Controller;
+import com.thunder.Constant;
 import com.thunder.util.ClassUtil;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * Created by icepoint1999 on 3/24/16.
@@ -9,6 +12,7 @@ import com.thunder.util.ClassUtil;
 public class HelpLoader {
 
     public static void init(){
+        Logger logger = LogManager.getLogger(HelpLoader.class);
         Class<?>[] classs={
                 ClassHelper.class,
                 BeanHelper.class,
@@ -16,7 +20,7 @@ public class HelpLoader {
                 ControllerHelper.class,
                 IocHelper.class};
         for (Class<?> cls:classs){
-            System.out.println("Thunder:---------> load class " + cls + "success !");
+           logger.info(Constant.LOG_Aop_NAME+"Load Class: " + cls.getName() + " success!");
             ClassUtil.loadClass(cls.getName(),true);
         }
 

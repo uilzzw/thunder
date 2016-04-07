@@ -1,5 +1,6 @@
 package com.thunder.web;
 
+import com.thunder.Constant;
 import com.thunder.core.Lightning;
 import com.thunder.core.Thunder;
 import com.thunder.helper.BeanHelper;
@@ -13,6 +14,10 @@ import com.thunder.route.Routes;
 import com.thunder.util.*;
 import com.thunder.wrapper.Request;
 import com.thunder.wrapper.Response;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 
 import javax.servlet.ServletConfig;
@@ -40,6 +45,8 @@ public class ThunderDispatcher extends HttpServlet {
 
     private ResourceMatcher resourceMatcher = new ResourceMatcher(new ArrayList<Resource>());
 
+    private  org.apache.log4j.Logger LOGGER = LogManager.getLogger(ThunderDispatcher.class);
+
 
     public ThunderDispatcher() {
     }
@@ -50,7 +57,6 @@ public class ThunderDispatcher extends HttpServlet {
     }
 
     public void init(ServletConfig servletConfig){
-
             Thunder zeus  = Thunder.zeus();
             if(!zeus.isInit){
 
@@ -62,7 +68,11 @@ public class ThunderDispatcher extends HttpServlet {
 
                 if(null != routes){
                     routeMatcher.setRouteList(routes.getRoutelist());
+                    routes.getRoutelist().forEach(r->{
+                        LOGGER.info(Constant.LOG_RS_NAME+"Add URL: " + r.getPath() + " Method: "+r.getMethod());
+                    });
                 }
+
 
                 if(null != resources){
                     resourceMatcher.setResourceList(resources.getResourcesList());
@@ -86,7 +96,6 @@ public class ThunderDispatcher extends HttpServlet {
 
         //请求的uri
              String uri =httpServletRequest.getServletPath();
-             System.out.print(uri);
 
             Route route ;
         //优先判断是否属于资源。
@@ -95,7 +104,7 @@ public class ThunderDispatcher extends HttpServlet {
 
             if (route != null) {
                     // 实际执行方法
-
+                 LOGGER.info(Constant.LOG_RS_NAME+"Action is : "+ uri + " Method is " + httpServletRequest.getMethod());
                  thunder.setPathVarianble(Util.restMap(route.getPath(),uri));
                  handle(httpServletRequest, httpServletResponse, route);
 
