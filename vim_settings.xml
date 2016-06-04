@@ -3,21 +3,38 @@
     <state version="4" enabled="true" />
     <globalmarks />
     <filemarks>
-      <file name="F:/IntellijProject/thunder/_windows/git.xml" timestamp="1465066106586" />
-      <file name="F:/IntellijProject/thunder/vim_settings.xml" timestamp="1465066447453" />
-      <file name="F:/IntellijProject/thunder/pom.xml" timestamp="1465066034039" />
-      <file name="F:/IntellijProject/thunder/src/main/resources/log4j.properties" timestamp="1465066333836" />
-      <file name="F:/IntellijProject/thunder/src/main/java/com/thunder/core/Var.java" timestamp="1465066194087" />
-      <file name="/HTML File.txt.ft" timestamp="1465066316257">
+      <file name="F:/IntellijProject/thunder/.gitignore" timestamp="1465067015474" />
+      <file name="/a.dummy" timestamp="1465067457018">
         <mark key="[" line="0" column="0" />
       </file>
-      <file name="F:/IntellijProject/thunder/web-browsers.xml" timestamp="1465066454453" />
+      <file name="F:/IntellijProject/thunder/src/main/java/com/thunder/render/Render.java" timestamp="1465067765960" />
+      <file name="F:/IntellijProject/thunder/colors.scheme.xml" timestamp="1465067084176" />
+      <file name="F:/IntellijProject/thunder/src/main/java/com/thunder/aop/AopTarget.java" timestamp="1465067722047" />
+      <file name="F:/IntellijProject/thunder/src/main/java/com/thunder/Constant.java" timestamp="1465067428166">
+        <mark key="]" line="11" column="0" />
+        <mark key="^" line="11" column="0" />
+        <mark key="." line="11" column="0" />
+      </file>
+      <file name="F:/IntellijProject/thunder/src/main/java/com/thunder/render/JspRender.java" timestamp="1465067801814" />
+      <file name="/HTML File.txt.ft" timestamp="1465066811585">
+        <mark key="[" line="0" column="0" />
+      </file>
       <file name="/fragment.java" timestamp="1463241223254">
         <mark key="[" line="0" column="0" />
       </file>
     </filemarks>
     <jumps />
-    <registers />
+    <registers>
+      <register name="1" type="4">
+        <text />
+      </register>
+      <register name="&quot;" type="4">
+        <text />
+      </register>
+      <register name="-" type="4">
+        <text />
+      </register>
+    </registers>
     <search>
       <last-dir>0</last-dir>
       <show-last>false</show-last>
@@ -34,6 +51,12 @@
       </shortcut-conflict>
       <shortcut-conflict owner="vim">
         <text>ctrl pressed S</text>
+      </shortcut-conflict>
+      <shortcut-conflict owner="vim">
+        <text>ctrl pressed F</text>
+      </shortcut-conflict>
+      <shortcut-conflict owner="vim">
+        <text>ctrl pressed D</text>
       </shortcut-conflict>
     </shortcut-conflicts>
   </component>
